@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>LEGS:ON – Pro partnery</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEE7DA}
+a{color:#121212}a:hover{color:#000000}
+</style>
+</helmet>
+<div style="background: #EEE7DA; color: #121212; font-family: 'Poppins', system-ui, sans-serif; font-size: 17px; line-height: 1.55; min-height: 100vh">
+
+<header style="max-width: 1320px; margin: 0 auto; padding: 28px 32px; display: flex; flex-wrap: wrap; gap: 16px 40px; align-items: center; justify-content: space-between">
+<a href="Brand.dc.html" style="font-family: 'Anton', sans-serif; font-size: 44px; line-height: 1; text-decoration: none; letter-spacing: 0.5px">LEGS:ON</a>
+<nav aria-label="Hlavní menu" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 32px; font-size: 15px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase">
+<a href="Dily.dc.html" style="text-decoration: none">Díly</a>
+<a href="Clanky.dc.html" style="text-decoration: none">Články</a>
+<a href="Hoste.dc.html" style="text-decoration: none">Hosté</a>
+<a href="ONas.dc.html" style="text-decoration: none">O nás</a>
+<a href="Predplatne.dc.html" style="text-decoration: none; background: #121212; color: #EEE7DA; padding: 10px 18px">Předplatit</a>
+</nav>
+</header>
+
+<section style="max-width: 1320px; margin: 0 auto; padding: 0 32px">
+<div style="display: flex; flex-wrap: wrap">
+<div style="flex: 999 1 640px; min-width: 0; background: #121212; color: #EEE7DA; padding: 56px 40px; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; min-height: 520px">
+<p style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: {{accent}}">Pro partnery</p>
+<div>
+<h1 style="margin: 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(64px, 8vw, 120px); line-height: 0.9; text-transform: uppercase">Mluvte k lidem, kteří cyklistikou žijí.</h1>
+<p style="margin: 24px 0 0; font-size: 20px; max-width: 560px; color: #CFC8BA">Posluchači LEGS:ON s námi tráví půl hodiny až hodinu každý týden. Ne scrollováním, ale posloucháním.</p>
+</div>
+</div>
+<div style="flex: 1 1 360px; min-width: 0; background: {{accent}}; padding: 40px; display: flex; flex-direction: column; justify-content: flex-end; gap: 16px">
+<p style="margin: 0; font-family: 'Anton', sans-serif; font-size: 40px; line-height: 1; text-transform: uppercase">Media kit</p>
+<p style="margin: 0">Čísla, publikum, formáty a ceník v jednom PDF.</p>
+<a href="#" style="text-decoration: none; text-align: center; background: #121212; color: #EEE7DA; padding: 18px 24px; font-size: 15px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Stáhnout media kit (PDF)</a>
+</div>
+</div>
+</section>
+
+<section style="max-width: 1320px; margin: 0 auto; padding: 96px 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px">
+<div><p style="margin: 0; font-family: 'Anton', sans-serif; font-size: 72px; line-height: 1">150+</p><p style="margin: 4px 0 0; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">dílů od roku 2021</p></div>
+<div><p style="margin: 0; font-family: 'Anton', sans-serif; font-size: 72px; line-height: 1">[XX k]</p><p style="margin: 4px 0 0; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">poslechů měsíčně</p></div>
+<div><p style="margin: 0; font-family: 'Anton', sans-serif; font-size: 72px; line-height: 1">[XX k]</p><p style="margin: 4px 0 0; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">sledujících na sítích</p></div>
+<div><p style="margin: 0; font-family: 'Anton', sans-serif; font-size: 72px; line-height: 1">[XX %]</p><p style="margin: 4px 0 0; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">doposlechne díl do konce</p></div>
+</section>
+
+<section style="background: #F7F3EB">
+<div style="max-width: 1320px; margin: 0 auto; padding: 112px 32px">
+<h2 style="margin: 0 0 48px; font-family: 'Anton', sans-serif; font-weight: 400; font-size: 80px; line-height: 0.9; text-transform: uppercase">Jak můžeme spolupracovat</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px">
+<sc-for list="{{formats}}" as="f" hint-placeholder-count="4">
+<div style="background: #EEE7DA; padding: 32px; display: flex; flex-direction: column; gap: 12px; min-height: 240px">
+<p style="margin: 0; font-family: 'Anton', sans-serif; font-size: 32px; line-height: 1; text-transform: uppercase">{{f.name}}</p>
+<p style="margin: 0; color: #3A3833">{{f.desc}}</p>
+<p style="margin: auto 0 0; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">{{f.price}}</p>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section style="max-width: 1320px; margin: 0 auto; padding: 96px 32px">
+<h2 style="margin: 0 0 32px; font-size: 14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #4A4741">S kým jsme už šlapali</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px">
+<div style="height: 96px; border: 1px dashed #A9A397; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A4741">[logo partnera]</div>
+<div style="height: 96px; border: 1px dashed #A9A397; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A4741">[logo partnera]</div>
+<div style="height: 96px; border: 1px dashed #A9A397; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A4741">[logo partnera]</div>
+<div style="height: 96px; border: 1px dashed #A9A397; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A4741">[logo partnera]</div>
+<div style="height: 96px; border: 1px dashed #A9A397; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A4741">[logo partnera]</div>
+</div>
+</section>
+
+<section style="background: #121212; color: #EEE7DA">
+<div style="max-width: 1320px; margin: 0 auto; padding: 112px 32px; display: flex; flex-wrap: wrap; gap: 56px">
+<div style="flex: 1 1 400px; min-width: 0">
+<h2 style="margin: 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: 80px; line-height: 0.9; text-transform: uppercase">Ozvěte se</h2>
+<p style="margin: 20px 0 0; font-size: 18px; color: #CFC8BA; max-width: 420px">Napište, co chcete posluchačům říct, a navrhneme formát, který bude dávat smysl jim i vám.</p>
+<p style="margin: 24px 0 0; font-size: 18px">[e-mail] · [telefon]</p>
+</div>
+<form style="flex: 999 1 560px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="p-jmeno" style="font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Jméno</label><input id="p-jmeno" type="text" style="font-family: 'Poppins', sans-serif; font-size: 16px; padding: 14px; border: 1px solid #5A5750; background: #1E1E1C; color: #EEE7DA"></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="p-firma" style="font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Firma</label><input id="p-firma" type="text" style="font-family: 'Poppins', sans-serif; font-size: 16px; padding: 14px; border: 1px solid #5A5750; background: #1E1E1C; color: #EEE7DA"></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="p-email" style="font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">E-mail</label><input id="p-email" type="email" style="font-family: 'Poppins', sans-serif; font-size: 16px; padding: 14px; border: 1px solid #5A5750; background: #1E1E1C; color: #EEE7DA"></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><label for="p-format" style="font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Zájem o</label><select id="p-format" style="font-family: 'Poppins', sans-serif; font-size: 16px; padding: 14px; border: 1px solid #5A5750; background: #1E1E1C; color: #EEE7DA"><option>Partner Espressa</option><option>Partner rozhovoru</option><option>Článek na webu</option><option>Něco jiného</option></select></div>
+<div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px"><label for="p-zprava" style="font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Zpráva</label><textarea id="p-zprava" rows="4" style="font-family: 'Poppins', sans-serif; font-size: 16px; padding: 14px; border: 1px solid #5A5750; background: #1E1E1C; color: #EEE7DA; resize: vertical"></textarea></div>
+<button type="button" style="grid-column: 1 / -1; justify-self: start; font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 18px 32px; border: 0; background: {{accent}}; color: #121212; cursor: pointer">Odeslat</button>
+</form>
+</div>
+</section>
+
+<footer style="background: #121212; color: #A9A397; border-top: 1px solid #2A2926">
+<div style="max-width: 1320px; margin: 0 auto; padding: 32px; display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between; align-items: center; font-size: 14px; letter-spacing: 1px; text-transform: uppercase">
+<a href="Brand.dc.html" style="font-family: 'Anton', sans-serif; font-size: 28px; color: #EEE7DA; text-decoration: none; letter-spacing: 0.5px">LEGS:ON</a>
+<span style="display: flex; flex-wrap: wrap; gap: 8px 24px"><a href="#" style="color: #A9A397">Instagram</a><a href="#" style="color: #A9A397">Facebook</a><a href="#" style="color: #A9A397">YouTube</a><a href="Partneri.dc.html" style="color: #EEE7DA">Pro partnery</a></span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C8895B","options":["#C8895B","#D49A6A","#B97A4E"]},"$preview":{"width":1440,"height":3300}}'>
+class Component extends DCLogic {
+renderVals() {
+return {
+accent: this.props.accent ?? '#C8895B',
+formats: [
+{ name: 'Partner Espressa', desc: 'Zmínka v týdenním Espressu a logo u dílu na webu. Pravidelný kontakt s publikem každý týden.', price: '[cena / měsíc]' },
+{ name: 'Partner rozhovoru', desc: 'Prezentace v dlouhém rozhovoru, odkaz v popisu dílu, na webu i v článku z dílu.', price: '[cena / díl]' },
+{ name: 'Obsah na webu', desc: 'Článek nebo test vybavení s jasným označením spolupráce. Zůstává ve vyhledávání dlouhodobě.', price: '[cena]' },
+{ name: 'Na míru', desc: 'Vyjížďka s posluchači, živé natáčení na akci nebo série dílů.', price: 'Domluvíme se' }
+]
+};
+}
+}
+</script>
+</body>
+</html>
