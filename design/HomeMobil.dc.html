@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>LEGS:ON – homepage mobil</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEE7DA}
+a{color:#121212}a:hover{color:#000000}
+</style>
+</helmet>
+<div style="width: 390px; background: #EEE7DA; color: #121212; font-family: 'Poppins', system-ui, sans-serif; font-size: 16px; line-height: 1.55">
+
+<header style="padding: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Brand.dc.html" style="font-family: 'Anton', sans-serif; font-size: 32px; line-height: 1; text-decoration: none">LEGS:ON</a>
+<div style="display: flex; gap: 8px; align-items: center">
+<a href="Predplatne.dc.html" style="text-decoration: none; background: #121212; color: #EEE7DA; padding: 12px 14px; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase">Předplatit</a>
+<button type="button" onClick="{{toggleMenu}}" aria-label="Menu" aria-expanded="{{menuOpen}}" style="width: 44px; height: 44px; border: 1.5px solid #121212; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+</div>
+</header>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<nav aria-label="Hlavní menu" style="background: #121212; padding: 8px 16px 20px; display: flex; flex-direction: column">
+<a href="Dily.dc.html" style="color: #EEE7DA; text-decoration: none; font-family: 'Anton', sans-serif; font-size: 32px; text-transform: uppercase; padding: 10px 0; border-bottom: 1px solid #3A3833">Díly</a>
+<a href="Clanky.dc.html" style="color: #EEE7DA; text-decoration: none; font-family: 'Anton', sans-serif; font-size: 32px; text-transform: uppercase; padding: 10px 0; border-bottom: 1px solid #3A3833">Články</a>
+<a href="Hoste.dc.html" style="color: #EEE7DA; text-decoration: none; font-family: 'Anton', sans-serif; font-size: 32px; text-transform: uppercase; padding: 10px 0; border-bottom: 1px solid #3A3833">Hosté</a>
+<a href="ONas.dc.html" style="color: #EEE7DA; text-decoration: none; font-family: 'Anton', sans-serif; font-size: 32px; text-transform: uppercase; padding: 10px 0">O nás</a>
+</nav>
+</sc-if>
+
+<section style="background: {{accent}}; padding: 40px 16px 32px">
+<h1 style="margin: 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: 76px; line-height: 0.88; text-transform: uppercase">Šlapej<br>těma<br>nohama.</h1>
+<p style="margin: 20px 0 0; font-size: 17px">Cyklistický podcast Petra a Honzy. Rozhovory s lidmi, kteří cyklistikou žijí, a každý týden Espresso z pelotonu.</p>
+</section>
+<section style="background: #121212; color: #EEE7DA; padding: 20px 16px 24px">
+<p style="margin: 0 0 8px; font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: #A9A397">Poslouchej</p>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<a href="#" style="color: #EEE7DA; text-decoration: none; border: 1px solid #3A3833; padding: 14px 12px; font-family: 'Anton', sans-serif; font-size: 22px; text-transform: uppercase">Spotify</a>
+<a href="#" style="color: #EEE7DA; text-decoration: none; border: 1px solid #3A3833; padding: 14px 12px; font-family: 'Anton', sans-serif; font-size: 22px; text-transform: uppercase">Apple</a>
+<a href="#" style="color: #EEE7DA; text-decoration: none; border: 1px solid #3A3833; padding: 14px 12px; font-family: 'Anton', sans-serif; font-size: 22px; text-transform: uppercase">YouTube</a>
+<a href="#" style="color: {{accent}}; text-decoration: none; border: 1px solid #3A3833; padding: 14px 12px; font-family: 'Anton', sans-serif; font-size: 22px; text-transform: uppercase">Herohero</a>
+</div>
+</section>
+
+<section style="background: #F7F3EB; margin-top: 48px; padding: 48px 16px">
+<h2 style="margin: 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: 48px; line-height: 0.95; text-transform: uppercase">Poslední díly</h2>
+<p style="margin: 8px 0 24px; font-size: 15px; color: #3A3833">Každý čtvrtek nové Espresso, k tomu velké rozhovory.</p>
+<a href="DilMobil.dc.html" style="display: block; text-decoration: none; color: #EEE7DA; background: #121212; position: relative; overflow: hidden; height: 360px">
+<img src="/_blob/5da9362d43e20862023d9372ce108568" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block">
+<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(18,18,18,0.3) 0%, rgba(18,18,18,0.88) 65%)"></div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 20px">
+<span style="display: inline-block; background: #EEE7DA; color: #121212; padding: 4px 10px; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Nový díl · Espresso #093</span>
+<h3 style="margin: 12px 0 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: 32px; line-height: 1; text-transform: uppercase">Silniční sezona končí, cyklokrosová startuje. <span style="color: #E0AC86">Jak dopadne Picnic?</span></h3>
+<p style="margin: 12px 0 0; font-size: 13px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase">▶ Přehrát · 31 min</p>
+</div>
+</a>
+<a href="DilMobil.dc.html" style="margin-top: 12px; display: flex; text-decoration: none; background: {{accent}}">
+<img src="/_blob/99b1f4143c857e5a85f135dc58868fb2" alt="Radim Kořínek" style="width: 110px; flex: none; object-fit: cover; object-position: center top; display: block">
+<div style="padding: 16px">
+<p style="margin: 0; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Rozhovor #40 · 20. 10.</p>
+<p style="margin: 6px 0 0; font-family: 'Anton', sans-serif; font-size: 22px; line-height: 1.05; text-transform: uppercase">O českém MTB v 90. letech a kolik dnes stojí sezona týmu?</p>
+</div>
+</a>
+<div style="margin-top: 24px; border-top: 1.5px solid #121212">
+<sc-for list="{{episodes}}" as="e" hint-placeholder-count="4">
+<a href="DilMobil.dc.html" style="display: block; text-decoration: none; padding: 16px 0; border-bottom: 1.5px solid #121212">
+<p style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #4A4741">{{e.date}} · {{e.tag}} · {{e.len}}</p>
+<p style="margin: 4px 0 0; font-family: 'Anton', sans-serif; font-size: 22px; line-height: 1.1; text-transform: uppercase">{{e.title}}</p>
+</a>
+</sc-for>
+</div>
+<a href="Dily.dc.html" style="display: block; margin-top: 20px; text-align: center; border: 1.5px solid #121212; padding: 14px; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Všech 150+ dílů</a>
+</section>
+
+<section style="background: #E3DCCF; padding: 48px 16px">
+<p style="margin: 0 0 12px; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase">Za mikrofonem</p>
+<h2 style="margin: 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: 52px; line-height: 0.9; text-transform: uppercase">Ciao, jsme<br>Petr a Honza.</h2>
+<div style="margin-top: 24px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<div><div style="aspect-ratio: 3 / 4; background: #121212; color: #A9A397; display: flex; align-items: center; justify-content: center; font-size: 11px; letter-spacing: 1px; text-transform: uppercase">Foto: Petr</div><p style="margin: 8px 0 0; font-family: 'Anton', sans-serif; font-size: 24px; text-transform: uppercase">Petr</p></div>
+<div><div style="aspect-ratio: 3 / 4; background: #121212; color: #A9A397; display: flex; align-items: center; justify-content: center; font-size: 11px; letter-spacing: 1px; text-transform: uppercase">Foto: Honza</div><p style="margin: 8px 0 0; font-family: 'Anton', sans-serif; font-size: 24px; text-transform: uppercase">Honza</p></div>
+</div>
+<p style="margin: 16px 0 0">Baví nás cyklistika natolik, že o ní od roku 2021 točíme podcast. Přes 150 dílů a pořád nás to nepustilo.</p>
+<a href="ONas.dc.html" style="display: inline-block; margin-top: 16px; background: #121212; color: #EEE7DA; padding: 14px 18px; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Náš příběh →</a>
+</section>
+
+<section style="background: #F7F3EB; padding: 56px 16px">
+<h2 style="margin: 0; font-size: 34px; font-weight: 500; letter-spacing: -0.5px">Články</h2>
+<p style="margin: 6px 0 24px; font-size: 15px; color: #4A4741">Z každého dílu vzniká článek.</p>
+<a href="ClanekMobil.dc.html" style="display: flex; flex-direction: column; gap: 10px; text-decoration: none">
+<img src="/_blob/99b1f4143c857e5a85f135dc58868fb2" alt="Radim Kořínek" style="width: 100%; height: 240px; object-fit: cover; object-position: center 20%; display: block">
+<p style="margin: 4px 0 0; font-size: 12px; color: #4A4741">MTB · 6 min čtení</p>
+<h3 style="margin: 0; font-size: 24px; font-weight: 500; line-height: 1.22">Kolik stojí sezona MTB týmu? Radim Kořínek otevírá rozpočet</h3>
+</a>
+<div style="margin-top: 28px; display: flex; flex-direction: column; gap: 20px">
+<sc-for list="{{articles}}" as="a" hint-placeholder-count="4">
+<a href="ClanekMobil.dc.html" style="display: block; text-decoration: none; border-top: 1px solid #C9C1B2; padding-top: 14px">
+<p style="margin: 0; font-size: 12px; color: #4A4741">{{a.topic}}</p>
+<p style="margin: 4px 0 0; font-size: 18px; font-weight: 500; line-height: 1.3">{{a.title}}</p>
+</a>
+</sc-for>
+</div>
+<a href="Clanky.dc.html" style="display: block; margin-top: 28px; text-align: center; border: 1px solid #121212; border-radius: 999px; padding: 12px; text-decoration: none; font-size: 15px; font-weight: 500">Všechny články</a>
+</section>
+
+<section style="padding: 40px 16px">
+<p style="margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #4A4741">U mikrofonu byli</p>
+<p style="margin: 0; font-family: 'Anton', sans-serif; font-size: 20px; line-height: 1.4; text-transform: uppercase"><a href="Host.dc.html" style="text-decoration: none">Radim Kořínek</a> / <a href="Host.dc.html" style="text-decoration: none">Martin Janíček</a> / <a href="Host.dc.html" style="text-decoration: none">Michal Schlegel</a> / <a href="Host.dc.html" style="text-decoration: none">Honza Gottwald</a> / <a href="Hoste.dc.html">a další →</a></p>
+</section>
+
+<section style="background: #121212; color: #EEE7DA; padding: 56px 16px">
+<h2 style="margin: 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: 64px; line-height: 0.9; text-transform: uppercase">Šlapej<br>s námi.</h2>
+<p style="margin: 14px 0 0; color: #CFC8BA">Předplatitelé na Herohero drží LEGS:ON v sedle.</p>
+<p style="margin: 20px 0 0; font-family: 'Anton', sans-serif; font-size: 40px; line-height: 1">[XX] Kč <span style="font-family: 'Poppins', sans-serif; font-size: 15px; color: #CFC8BA">/ měsíc</span></p>
+<a href="Predplatne.dc.html" style="display: block; margin-top: 16px; text-align: center; background: {{accent}}; color: #121212; padding: 18px; text-decoration: none; font-size: 15px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Předplatit</a>
+</section>
+
+<footer style="background: #121212; color: #A9A397; border-top: 1px solid #2A2926; padding: 24px 16px; display: flex; flex-direction: column; gap: 12px; font-size: 13px; letter-spacing: 1px; text-transform: uppercase">
+<span style="font-family: 'Anton', sans-serif; font-size: 26px; color: #EEE7DA">LEGS:ON</span>
+<span style="display: flex; flex-wrap: wrap; gap: 8px 18px"><a href="#" style="color: #A9A397">Instagram</a><a href="#" style="color: #A9A397">Facebook</a><a href="#" style="color: #A9A397">YouTube</a><a href="Partneri.dc.html" style="color: #A9A397">Pro partnery</a></span>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C8895B","options":["#C8895B","#D49A6A","#B97A4E"]},"$preview":{"width":390,"height":6400}}'>
+class Component extends DCLogic {
+constructor(props) { super(props); this.state = { menu: false }; }
+renderVals() {
+return {
+accent: this.props.accent ?? '#C8895B',
+menuOpen: this.state.menu,
+toggleMenu: () => this.setState({ menu: !this.state.menu }),
+episodes: [
+{ date: '16. 10.', tag: 'Espresso #092', len: '28 min', title: 'Remco mluvil na Lombardii, Stošek tvořil závod MS v gravelu…' },
+{ date: '9. 10.', tag: 'Espresso #091', len: '31 min', title: '0,0028 sekundy rozhodlo o evropském titulu Evenepoela' },
+{ date: '2. 10.', tag: 'Espresso #090', len: '35 min', title: 'Mistr světa McNulty a všechny spekulace o závodě v Montrealu…' },
+{ date: '15. 9.', tag: 'Rozhovor #39', len: '58 min', title: 'Proč neplatí, že „všichni dopují“ a o gravel etapáku v Keni' }
+],
+articles: [
+{ topic: 'Silnice', title: 'Kolik stojí WorldTour tým a co čeká Picnic v roce 2027' },
+{ topic: 'Příběhy', title: 'Vítězství na gravel etapáku v Keni krátce po propuštění z nemocnice' },
+{ topic: 'Silnice', title: '0,0028 sekundy: nejtěsnější evropský titul Remca Evenepoela' },
+{ topic: 'MTB', title: '32palcová kola ve Světovém poháru XCO: budoucnost, nebo slepá ulička?' }
+]
+};
+}
+}
+</script>
+</body>
+</html>

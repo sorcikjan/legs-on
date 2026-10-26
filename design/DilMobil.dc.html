@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>LEGS:ON – detail dílu mobil</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEE7DA}
+a{color:#121212}a:hover{color:#000000}
+</style>
+</helmet>
+<div style="width: 390px; background: #EEE7DA; color: #121212; font-family: 'Poppins', system-ui, sans-serif; font-size: 16px; line-height: 1.55; position: relative">
+
+<header style="padding: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<a href="HomeMobil.dc.html" style="font-family: 'Anton', sans-serif; font-size: 32px; line-height: 1; text-decoration: none">LEGS:ON</a>
+<div style="display: flex; gap: 8px; align-items: center">
+<a href="Predplatne.dc.html" style="text-decoration: none; background: #121212; color: #EEE7DA; padding: 12px 14px; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase">Předplatit</a>
+<button type="button" aria-label="Menu" style="width: 44px; height: 44px; border: 1.5px solid #121212; background: transparent; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+</div>
+</header>
+
+<section style="background: {{accent}}; padding: 24px 16px">
+<p style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Rozhovor #40 · 20. 10. 2026 · 28 min</p>
+<p style="margin: 16px 0 0; font-family: 'Anton', sans-serif; font-size: 26px; line-height: 1; text-transform: uppercase">Rozhovor s</p>
+<p style="margin: 0; font-family: 'Anton', sans-serif; font-size: 72px; line-height: 0.9; text-transform: uppercase">Radim</p>
+</section>
+<section style="background: #121212; color: #EEE7DA; padding: 24px 16px 28px">
+<img src="/_blob/99b1f4143c857e5a85f135dc58868fb2" alt="Radim Kořínek" style="width: 100%; height: 300px; object-fit: cover; object-position: center top; display: block">
+<h1 style="margin: 16px 0 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: 72px; line-height: 0.9; text-transform: uppercase">Kořínek.</h1>
+<p style="margin: 10px 0 0; font-size: 18px">O českém MTB v 90. letech a kolik dnes stojí sezona týmu?</p>
+<div style="margin-top: 20px; display: flex; align-items: center; gap: 14px">
+<button type="button" onClick="{{toggle}}" aria-label="{{playLabel}}" style="width: 60px; height: 60px; border-radius: 50%; border: 0; background: {{accent}}; color: #121212; display: flex; align-items: center; justify-content: center; flex: none; cursor: pointer">
+<sc-if value="{{paused}}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z" fill="currentColor"></path></svg></sc-if>
+<sc-if value="{{playing}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z" fill="currentColor"></path></svg></sc-if>
+</button>
+<div style="flex: 1; min-width: 0">
+<div style="height: 4px; background: #3A3833"><div style="width: {{progress}}; height: 4px; background: #EEE7DA"></div></div>
+<div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 12px; color: #A9A397"><span>{{time}}</span><span>28:00</span></div>
+</div>
+</div>
+<div style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase"><a href="#" style="color: #EEE7DA">Spotify</a><a href="#" style="color: #EEE7DA">Apple</a><a href="#" style="color: #EEE7DA">YouTube</a></div>
+</section>
+
+<section style="padding: 40px 16px 0">
+<h2 style="margin: 0 0 10px; font-family: 'Anton', sans-serif; font-weight: 400; font-size: 34px; line-height: 1; text-transform: uppercase">O dílu</h2>
+<p style="margin: 0; font-size: 17px">Radim Kořínek závodil na olympiádě v cross-country i na silnici a dnes vede MTB tým Česká spořitelna – Accolade. Bavili jsme se o tom, jak vypadalo české MTB v 90. letech a kolik dnes stojí odjet se týmem celou sezonu. Užijte si skvělý povídání.</p>
+
+<h2 style="margin: 40px 0 10px; font-family: 'Anton', sans-serif; font-weight: 400; font-size: 34px; line-height: 1; text-transform: uppercase">Kapitoly</h2>
+<div style="border-top: 1.5px solid #121212">
+<sc-for list="{{chapters}}" as="c" hint-placeholder-count="5">
+<button type="button" style="width: 100%; display: flex; gap: 16px; padding: 14px 0; border: 0; border-bottom: 1px solid #C9C1B2; background: transparent; color: #121212; text-align: left; font-family: 'Poppins', sans-serif; font-size: 16px; cursor: pointer"><span style="width: 60px; flex: none; font-weight: 600; color: #4A4741">{{c.t}}</span><span>{{c.label}}</span></button>
+</sc-for>
+</div>
+
+<a href="Host.dc.html" style="margin-top: 32px; text-decoration: none; background: #F7F3EB; padding: 16px; display: flex; gap: 14px; align-items: center">
+<img src="/_blob/99b1f4143c857e5a85f135dc58868fb2" alt="" style="width: 64px; height: 76px; object-fit: cover; object-position: center top; flex: none; display: block">
+<div><p style="margin: 0; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #4A4741">Host</p><p style="margin: 2px 0 0; font-family: 'Anton', sans-serif; font-size: 22px; text-transform: uppercase">Radim Kořínek</p><p style="margin: 0; font-size: 13px">Profil a všechny díly →</p></div>
+</a>
+
+<h2 style="margin: 40px 0 10px; font-family: 'Anton', sans-serif; font-weight: 400; font-size: 34px; line-height: 1; text-transform: uppercase">Přepis</h2>
+<div style="background: #F7F3EB; padding: 20px">
+<p style="margin: 0; font-size: 15px; color: #3A3833"><strong style="font-weight: 600; color: #121212">Honza:</strong> [Začátek přepisu…]</p>
+<p style="margin: 12px 0 0; font-size: 15px; color: #3A3833"><strong style="font-weight: 600; color: #121212">Radim Kořínek:</strong> [Odpověď hosta…]</p>
+<button type="button" style="margin-top: 16px; width: 100%; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 12px; border: 1.5px solid #121212; background: transparent; color: #121212">Celý přepis</button>
+</div>
+
+<h2 style="margin: 40px 0 6px; font-size: 24px; font-weight: 500">Články z dílu</h2>
+<a href="ClanekMobil.dc.html" style="display: block; text-decoration: none; border-top: 1px solid #C9C1B2; padding: 14px 0"><p style="margin: 0; font-size: 12px; color: #4A4741">MTB · 6 min čtení</p><p style="margin: 4px 0 0; font-size: 18px; font-weight: 500; line-height: 1.3">Kolik stojí sezona MTB týmu? Radim Kořínek otevírá rozpočet</p></a>
+<a href="ClanekMobil.dc.html" style="display: block; text-decoration: none; border-top: 1px solid #C9C1B2; padding: 14px 0"><p style="margin: 0; font-size: 12px; color: #4A4741">Příběhy · 5 min čtení</p><p style="margin: 4px 0 0; font-size: 18px; font-weight: 500; line-height: 1.3">České MTB v 90. letech očima olympionika</p></a>
+</section>
+
+<section style="background: #121212; color: #EEE7DA; padding: 48px 16px; margin-top: 40px">
+<h2 style="margin: 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: 56px; line-height: 0.9; text-transform: uppercase">Šlapej<br>s námi.</h2>
+<p style="margin: 12px 0 0; color: #CFC8BA">Předplatitelé na Herohero drží LEGS:ON v sedle.</p>
+<a href="Predplatne.dc.html" style="display: block; margin-top: 20px; text-align: center; background: {{accent}}; color: #121212; padding: 18px; text-decoration: none; font-size: 15px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Předplatit</a>
+</section>
+<footer style="background: #121212; color: #A9A397; border-top: 1px solid #2A2926; padding: 24px 16px 100px; font-size: 13px; letter-spacing: 1px; text-transform: uppercase">
+<span style="font-family: 'Anton', sans-serif; font-size: 26px; color: #EEE7DA">LEGS:ON</span>
+</footer>
+
+<div style="position: sticky; bottom: 0; background: #121212; color: #EEE7DA; border-top: 2px solid {{accent}}; padding: 10px 16px; display: flex; align-items: center; gap: 12px">
+<button type="button" onClick="{{toggle}}" aria-label="{{playLabel}}" style="width: 44px; height: 44px; border-radius: 50%; border: 0; background: {{accent}}; color: #121212; display: flex; align-items: center; justify-content: center; flex: none; cursor: pointer">
+<sc-if value="{{paused}}" hint-placeholder-val="{{ true }}"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z" fill="currentColor"></path></svg></sc-if>
+<sc-if value="{{playing}}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z" fill="currentColor"></path></svg></sc-if>
+</button>
+<div style="min-width: 0; flex: 1; line-height: 1.3"><p style="margin: 0; font-size: 11px; color: #A9A397; text-transform: uppercase; letter-spacing: 1px">Rozhovor #40 · {{time}}</p><p style="margin: 2px 0 0; font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Radim Kořínek: O českém MTB v 90. letech</p></div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C8895B","options":["#C8895B","#D49A6A","#B97A4E"]},"$preview":{"width":390,"height":4600}}'>
+class Component extends DCLogic {
+constructor(props) { super(props); this.state = { playing: false }; }
+renderVals() {
+const p = this.state.playing;
+return {
+accent: this.props.accent ?? '#C8895B',
+playing: p, paused: !p,
+playLabel: p ? 'Pozastavit' : 'Přehrát rozhovor',
+progress: p ? '34%' : '0%',
+time: p ? '09:31' : '00:00',
+toggle: () => this.setState({ playing: !p }),
+chapters: [
+{ t: '[00:00]', label: 'Úvod' },
+{ t: '[mm:ss]', label: 'České MTB v 90. letech' },
+{ t: '[mm:ss]', label: 'Olympiáda v XCO a na silnici' },
+{ t: '[mm:ss]', label: 'Tým Česká spořitelna – Accolade' },
+{ t: '[mm:ss]', label: 'Kolik dnes stojí sezona týmu' }
+]
+};
+}
+}
+</script>
+</body>
+</html>

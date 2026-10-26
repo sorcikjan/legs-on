@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>LEGS:ON – Všechny díly</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEE7DA}
+a{color:#121212}a:hover{color:#000000}
+</style>
+</helmet>
+<div style="background: #EEE7DA; color: #121212; font-family: 'Poppins', system-ui, sans-serif; font-size: 17px; line-height: 1.55; min-height: 100vh">
+
+<header style="max-width: 1320px; margin: 0 auto; padding: 28px 32px; display: flex; flex-wrap: wrap; gap: 16px 40px; align-items: center; justify-content: space-between">
+<a href="Brand.dc.html" style="font-family: 'Anton', sans-serif; font-size: 44px; line-height: 1; text-decoration: none; letter-spacing: 0.5px">LEGS:ON</a>
+<nav aria-label="Hlavní menu" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 32px; font-size: 15px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase">
+<a href="Dily.dc.html" aria-current="page" style="text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px">Díly</a>
+<a href="Clanky.dc.html" style="text-decoration: none">Články</a>
+<a href="Hoste.dc.html" style="text-decoration: none">Hosté</a>
+<a href="ONas.dc.html" style="text-decoration: none">O nás</a>
+<a href="Predplatne.dc.html" style="text-decoration: none; background: #121212; color: #EEE7DA; padding: 10px 18px">Předplatit</a>
+</nav>
+</header>
+
+<section style="max-width: 1320px; margin: 0 auto; padding: 56px 32px 64px; display: flex; flex-wrap: wrap; gap: 24px 64px; align-items: flex-end; justify-content: space-between">
+<div style="flex: 999 1 560px; min-width: 0">
+<h1 style="margin: 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(72px, 9vw, 128px); line-height: 0.9; text-transform: uppercase">Všechny díly</h1>
+<p style="margin: 20px 0 0; font-size: 19px; max-width: 560px">150+ dílů od roku 2021. Každý čtvrtek nové Espresso, k tomu velké rozhovory.</p>
+</div>
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 8px">
+<label for="hledat" style="font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Hledat díl nebo hosta</label>
+<input id="hledat" type="search" placeholder="Např. Kořínek, gravel, Picnic…" style="font-family: 'Poppins', sans-serif; font-size: 16px; padding: 14px 16px; border: 1.5px solid #121212; background: #F7F3EB; color: #121212">
+</div>
+</section>
+
+<section style="background: #F7F3EB">
+<div style="max-width: 1320px; margin: 0 auto; padding: 56px 32px 96px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px">
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{filters}}" as="f" hint-placeholder-count="3">
+<button type="button" onClick="{{f.pick}}" style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; padding: 10px 18px; border: 1.5px solid #121212; background: {{f.bg}}; color: {{f.fg}}; cursor: pointer">{{f.label}}</button>
+</sc-for>
+</div>
+<p style="margin: 0; font-size: 14px; color: #4A4741">Řazeno od nejnovějšího</p>
+</div>
+<div style="border-top: 1.5px solid #121212">
+<sc-for list="{{episodes}}" as="e" hint-placeholder-count="8">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 32px; padding: 20px 0; border-bottom: 1.5px solid #121212">
+<div style="flex: 0 0 210px; display: flex; align-items: center; gap: 14px">
+<span style="width: 64px; font-size: 15px; font-weight: 500">{{e.date}}</span>
+<sc-if value="{{e.isRozhovor}}" hint-placeholder-val="{{ false }}"><span style="background: {{accent}}; padding: 4px 10px; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap">Rozhovor {{e.num}}</span></sc-if>
+<sc-if value="{{e.isEspresso}}" hint-placeholder-val="{{ true }}"><span style="border: 1.5px solid #121212; padding: 3px 9px; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap">Espresso {{e.num}}</span></sc-if>
+</div>
+<a href="Dil.dc.html" style="flex: 999 1 420px; min-width: 0; text-decoration: none; font-family: 'Anton', sans-serif; font-size: 28px; line-height: 1.1; text-transform: uppercase">{{e.title}}</a>
+<span style="flex: 0 0 auto; font-size: 15px; color: #4A4741">{{e.meta}}</span>
+<button type="button" aria-label="Přehrát {{e.series}} {{e.num}}" style="width: 44px; height: 44px; border-radius: 50%; border: 0; background: #121212; color: #EEE7DA; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z" fill="currentColor"></path></svg></button>
+</div>
+</sc-for>
+</div>
+<div style="margin-top: 40px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center">
+<p style="margin: 0; font-size: 15px; color: #4A4741">Zobrazeno 8 z 150+ dílů</p>
+<button type="button" style="font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 16px 28px; border: 1.5px solid #121212; background: transparent; color: #121212; cursor: pointer">Načíst starší díly</button>
+</div>
+</div>
+</section>
+
+<section style="max-width: 1320px; margin: 0 auto; padding: 72px 32px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between">
+<p style="margin: 0; font-family: 'Anton', sans-serif; font-size: 40px; line-height: 1; text-transform: uppercase">Poslouchej, kde jsi zvyklý</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="#" style="text-decoration: none; padding: 12px 20px; border: 1.5px solid #121212; font-size: 15px; font-weight: 500">Spotify</a>
+<a href="#" style="text-decoration: none; padding: 12px 20px; border: 1.5px solid #121212; font-size: 15px; font-weight: 500">Apple Podcasts</a>
+<a href="#" style="text-decoration: none; padding: 12px 20px; border: 1.5px solid #121212; font-size: 15px; font-weight: 500">YouTube</a>
+<a href="#" style="text-decoration: none; padding: 12px 20px; border: 1.5px solid #121212; font-size: 15px; font-weight: 500">RSS</a>
+</div>
+</section>
+
+<section style="background: #121212; color: #EEE7DA">
+<div style="max-width: 1320px; margin: 0 auto; padding: 96px 32px; display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-end; justify-content: space-between">
+<div style="flex: 1 1 560px; min-width: 0">
+<h2 style="margin: 0; font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(56px, 7vw, 96px); line-height: 0.9; text-transform: uppercase">Šlapej s námi.</h2>
+<p style="margin: 16px 0 0; font-size: 18px; max-width: 520px; color: #CFC8BA">Předplatitelé na Herohero drží LEGS:ON v sedle.</p>
+</div>
+<a href="Predplatne.dc.html" style="text-decoration: none; background: {{accent}}; color: #121212; padding: 20px 32px; font-size: 16px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase">Předplatit</a>
+</div>
+</section>
+
+<footer style="background: #121212; color: #A9A397; border-top: 1px solid #2A2926">
+<div style="max-width: 1320px; margin: 0 auto; padding: 32px; display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between; align-items: center; font-size: 14px; letter-spacing: 1px; text-transform: uppercase">
+<a href="Brand.dc.html" style="font-family: 'Anton', sans-serif; font-size: 28px; color: #EEE7DA; text-decoration: none; letter-spacing: 0.5px">LEGS:ON</a>
+<span style="display: flex; flex-wrap: wrap; gap: 8px 24px"><a href="#" style="color: #A9A397">Instagram</a><a href="#" style="color: #A9A397">Facebook</a><a href="#" style="color: #A9A397">YouTube</a><a href="Partneri.dc.html" style="color: #A9A397">Pro partnery</a></span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C8895B","options":["#C8895B","#D49A6A","#B97A4E"]},"$preview":{"width":1440,"height":2700}}'>
+class Component extends DCLogic {
+constructor(props) { super(props); this.state = { filter: 'Vše' }; }
+renderVals() {
+const all = [
+['23. 10.', 'Espresso', '#093', 'Silniční sezona končí, cyklokrosová startuje. Jak dopadne Picnic?', '31 min'],
+['20. 10.', 'Rozhovor', '#40', 'O českém MTB v 90. letech a kolik dnes stojí sezona týmu?', 'Radim Kořínek · 28 min'],
+['16. 10.', 'Espresso', '#092', 'Remco mluvil na Lombardii, Stošek tvořil závod MS v gravelu…', '28 min'],
+['9. 10.', 'Espresso', '#091', '0,0028 sekundy rozhodlo o evropském titulu Evenepoela', '31 min'],
+['2. 10.', 'Espresso', '#090', 'Mistr světa McNulty a všechny spekulace o závodě v Montrealu…', '35 min'],
+['25. 9.', 'Espresso', '#089', 'Giro d’Italia má nového šéfa a 32” kola v akci…', '29 min'],
+['18. 9.', 'Espresso', '#088', 'Jaký je osobně vítěz Vuelty Enric Mas? Speciál s Michalem Schlegelem', '32 min'],
+['15. 9.', 'Rozhovor', '#39', 'Proč neplatí, že „všichni dopují“ a o gravel etapáku v Keni', 'Martin Janíček · 58 min']
+].map(([date, series, num, title, meta]) => ({ date, series, num, title, meta, isRozhovor: series === 'Rozhovor', isEspresso: series === 'Espresso' }));
+const f = this.state.filter;
+const map = { 'Vše': null, 'Rozhovory': 'Rozhovor', 'Espresso': 'Espresso' };
+return {
+accent: this.props.accent ?? '#C8895B',
+episodes: map[f] ? all.filter((e) => e.series === map[f]) : all,
+filters: ['Vše', 'Rozhovory', 'Espresso'].map((label) => ({ label, bg: label === f ? '#121212' : 'transparent', fg: label === f ? '#F7F3EB' : '#121212', pick: () => this.setState({ filter: label }) }))
+};
+}
+}
+</script>
+</body>
+</html>
