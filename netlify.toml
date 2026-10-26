@@ -1,0 +1,7 @@
+# Next.js 16 – Netlify ho rozpozná a použije svůj Next.js runtime automaticky.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
