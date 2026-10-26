@@ -1,36 +1,21 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LEGS:ON – web podcastu
 
-## Getting Started
-
-First, run the development server:
+Next.js 16 (App Router) + TypeScript + Tailwind CSS 4. Zadání: `docs/ZADANI.md`, návrhy: `design/`.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build && npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Obsah
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Díly** – z RSS feedu, když je nastavená proměnná `PODCAST_RSS_URL`; jinak (a při výpadku feedu) z `data/episodes.ts`. Typ dílu se pozná z názvu (`ESPRESSO #93: …` / `#40 LEGS:ON podcast - … | Host`). Kapitoly a přepisy zatím jen v `data/episodes.ts`.
+- **Články** – `content/clanky/*.md` (frontmatter + text; `## nadpis`, `> citace` + `> — autor`, `::prehravac`, `::predplatne`).
+- **Hosté** – `content/hoste/*.md`.
+- **Odkazy, kontakty, cena** – `lib/site.ts` (placeholdery k doplnění od tvůrců).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Pravidla
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Každé „Předplatit“ vede na `/predplatne`; na Herohero se odchází jen odtud, vždy s UTM (`heroheroUrl()` v `lib/site.ts`).
+- Události funnelu: `lib/analytics.ts` – posílají se do Plausible / Umami / GA4, pokud je na stránce načtený.
