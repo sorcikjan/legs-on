@@ -5,8 +5,8 @@ shortWith: Hanou
 role: [role]
 discipline: 
 team: 
-order: 6
-episodes: [Rozhovor #18]
+order: 23
+episodes: []
 photo: 
 ---
 [Krátké bio hosta.]

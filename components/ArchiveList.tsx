@@ -8,6 +8,8 @@ const FILTERS = [
   { label: "Vše", series: null },
   { label: "Rozhovory", series: "Rozhovor" },
   { label: "Espresso", series: "Espresso" },
+  { label: "Příběhy pelotonu", series: "Příběhy" },
+  { label: "Speciály", series: "Speciál" },
 ] as const;
 
 const PAGE = 8;
@@ -42,7 +44,7 @@ export function ArchiveList({
         <div className="min-w-0 flex-[999_1_560px]">
           <h1 className="display m-0 text-[64px] leading-[0.9] md:text-[clamp(72px,9vw,128px)]">Všechny díly</h1>
           <p className="m-0 mt-5 max-w-[560px] md:text-[19px]">
-            {total} dílů od roku 2021. Každý čtvrtek nové Espresso, k tomu velké rozhovory.
+            {total} dílů od roku 2021. Každý pátek nové Espresso, k tomu velké rozhovory.
           </p>
         </div>
         <div className="flex min-w-0 flex-[1_1_320px] flex-col gap-2">

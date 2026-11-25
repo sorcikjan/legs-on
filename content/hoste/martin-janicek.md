@@ -5,7 +5,7 @@ shortWith: Martinem
 role: Vítěz gravel etapáku v Keni
 discipline: Gravel
 team: 
-order: 2
+order: 5
 episodes: []
 photo: 
 ---

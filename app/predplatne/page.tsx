@@ -39,7 +39,7 @@ export default async function SubscribePage() {
   const episodes = await getEpisodes();
   const interviews = Math.max(0, ...episodes.filter((e) => e.series === "Rozhovor").map((e) => e.num));
   const stats = [
-    { value: STATS.episodesTotal, label: `dílů od roku ${STATS.since}` },
+    { value: String(episodes.length), label: `dílů od roku ${STATS.since}` },
     { value: String(interviews), label: "velkých rozhovorů" },
     { value: "1× týdně", label: "nové Espresso" },
     { value: "[XX]", label: "předplatitelů už šlape s námi" },

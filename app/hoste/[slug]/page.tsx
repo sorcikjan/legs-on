@@ -9,8 +9,8 @@ import { PersonPlaceholder, PlayIcon } from "@/components/icons";
 import { JsonLd } from "@/components/JsonLd";
 import { SubscribeLink } from "@/components/TrackedLink";
 import { getArticles, getGuest, getGuests } from "@/lib/content";
-import { getEpisodesByGuest } from "@/lib/episodes";
-import { shortDate } from "@/lib/format";
+import { episodeTag, getEpisodesByGuest } from "@/lib/episodes";
+import { longDate } from "@/lib/format";
 import { personLd } from "@/lib/jsonld";
 
 export async function generateStaticParams() {
@@ -106,7 +106,7 @@ export default async function GuestPage({ params }: PageProps<"/hoste/[slug]">) 
                   </span>
                   <div className="min-w-0 flex-[1_1_300px]">
                     <p className="eyebrow m-0 text-on-dark-subtle">
-                      {e.series} {e.label} · {shortDate(e.date)} · {e.minutes} min
+                      {episodeTag(e)} · {longDate(e.date)} · {e.minutes} min
                     </p>
                     <p className="display m-0 mt-1.5 text-[26px] leading-[1.05] md:text-[32px]">{e.title}</p>
                   </div>

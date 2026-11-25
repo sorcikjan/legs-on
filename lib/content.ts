@@ -76,7 +76,7 @@ const list = (v: string | string[] | undefined) => (Array.isArray(v) ? v : v ? [
 
 /* ---------- Témata ---------- */
 
-export const TOPICS = ["Silnice", "MTB", "Gravel", "Zákulisí týmů", "Příběhy"] as const;
+export const TOPICS = ["Silnice", "MTB", "Gravel", "Cyklokros", "Zákulisí týmů", "Příběhy"] as const;
 export type Topic = (typeof TOPICS)[number];
 
 export const topicSlug = (topic: string) => slugify(topic);

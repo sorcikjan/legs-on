@@ -7,7 +7,7 @@ minutes: 6
 date: 2026-10-20
 episode: rozhovor-40
 guests: [radim-korinek]
-featured: 1
+featured: 0
 image: /images/korinek.jpg
 imageAlt: Radim Kořínek
 ---

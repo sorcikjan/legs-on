@@ -4,9 +4,9 @@ Tento repozitář obsahuje podklady pro Claude Code (nebo vývojáře). Cílem j
 
 ## 1. Kontext a cíle
 
-LEGS:ON je český cyklistický podcast (Petr a Honza), 150+ dílů od března 2021. Dva formáty:
+LEGS:ON je český cyklistický podcast (Petr a Honza), 157 dílů od února 2021 (stav k 25. 11. 2026). Dva formáty:
 - **Rozhovor** – dlouhý rozhovor s hostem, číslování `#40`, zhruba 1× měsíčně.
-- **Espresso** – týdenní přehled z pelotonu (každý čtvrtek), číslování `#093`.
+- **Espresso** – týdenní přehled z pelotonu (každý pátek), číslování `#093`.
 
 Motto: **„Šlapej těma nohama“** (podpis Espressa: „Tak šlapej těma nohama a jedem!!!“).
 
@@ -43,7 +43,7 @@ Podcast je na Spotify, Apple Podcasts, YouTube, SoundCloud a Herohero, ale nemá
 - **Next.js 16 (App Router) + TypeScript + Tailwind CSS 4** – už je založeno v tomto repozitáři. Pozor: přečti `AGENTS.md`, tahle verze Next.js má změny oproti starším; před psaním kódu si projdi dokumentaci v `node_modules/next/dist/docs/`.
 - Stránky staticky generovat (Server Components, `generateStaticParams`, `generateMetadata`). Klientské komponenty (`"use client"`) jen pro přehrávač, filtry, mobilní menu a FAQ.
 - Písma přes `next/font/google` (Anton, Poppins), obrázky přes `next/image`. Design tokeny z bodu 4 jako CSS proměnné / Tailwind `@theme` v `app/globals.css`.
-- **Díly:** načítat z RSS feedu podcastu při buildu (title, datum, popis, délka, audio enclosure, obrázek), s revalidací. Typ dílu rozlišit z názvu (`ESPRESSO #93: …` vs `#40 LEGS:ON podcast - … | Host`). URL feedu: **[doplnit – feed hostovaný na SoundCloudu]**. Pro prototyp stačí lokální data (`data/episodes.ts`) s 8 díly z návrhu.
+- **Díly:** načítat z RSS feedu podcastu při buildu (title, datum, popis, délka, audio enclosure, obrázek), s revalidací. Typ dílu rozlišit z názvu (`ESPRESSO #93: …` vs `#40 LEGS:ON podcast - … | Host`). URL feedu: `https://anchor.fm/s/fa24f0a4/podcast/rss` (Spotify for Creators). Záloha feedu je v `data/feed.json` (`npm run snapshot`).
 - **Články a hosté:** Markdown/MDX v repozitáři (`content/clanky`, `content/hoste`), později lze napojit headless CMS.
 - Fotky jsou v `public/images/`.
 - **Přepisy (fáze 2):** pipeline audio → přepis (např. Whisper) → návrh článku přes LLM → ruční schválení.

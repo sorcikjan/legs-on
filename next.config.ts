@@ -4,6 +4,10 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  images: {
+    // Obálky dílů z RSS feedu
+    remotePatterns: [{ protocol: "https", hostname: "d3t3ozftmdmh3i.cloudfront.net" }],
+  },
   turbopack: {
     rules: {
       "*.css": {

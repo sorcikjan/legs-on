@@ -1,28 +1,39 @@
 import Link from "next/link";
 import { PlayButton } from "@/components/player/PlayButton";
-import { playable, type Episode } from "@/lib/episodes";
+import { episodeTag, playable, type Episode } from "@/lib/episodes";
 import { shortDate } from "@/lib/format";
 
 export function SeriesTag({ episode }: { episode: Pick<Episode, "series" | "label"> }) {
   return (
     <span className={episode.series === "Rozhovor" ? "tag-rozhovor" : "tag-espresso"}>
-      {episode.series} {episode.label}
+      {episodeTag(episode)}
     </span>
   );
 }
 
 export function episodeMeta(e: Episode) {
-  return e.guest && e.series === "Rozhovor" ? `${e.guest} · ${e.minutes} min` : `${e.minutes} min`;
+  return e.guest && e.series === "Rozhovor" && e.guest !== e.title ? `${e.guest} · ${e.minutes} min` : `${e.minutes} min`;
 }
 
 /** Řádek dílu: datum · štítek · název (Anton) · délka · kulaté play. */
-export function EpisodeRow({ episode, play = true, size = "md" }: { episode: Episode; play?: boolean; size?: "md" | "sm" }) {
+export function EpisodeRow({
+  episode,
+  play = true,
+  size = "md",
+  showYear = false,
+}: {
+  episode: Episode;
+  play?: boolean;
+  size?: "md" | "sm";
+  showYear?: boolean;
+}) {
   return (
     <div className="flex items-center gap-4 border-b-[1.5px] border-ink py-4 md:flex-wrap md:gap-x-8 md:gap-y-2.5 md:py-5">
       <div className="min-w-0 flex-1 md:contents">
         <div className="flex items-center gap-3.5 md:flex-[0_0_210px]">
           <span className="text-xs font-semibold uppercase tracking-[1px] text-muted md:w-16 md:text-[15px] md:font-medium md:normal-case md:tracking-normal md:text-ink">
             {shortDate(episode.date)}
+            {showYear && <span className="md:block md:text-[13px] md:text-muted"> {episode.date.slice(0, 4)}</span>}
           </span>
           <SeriesTag episode={episode} />
         </div>

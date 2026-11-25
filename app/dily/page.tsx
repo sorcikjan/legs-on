@@ -4,7 +4,6 @@ import { CtaBand } from "@/components/CtaBand";
 import { EpisodeRow } from "@/components/EpisodeRow";
 import { ListenOn } from "@/components/ListenOn";
 import { getEpisodes } from "@/lib/episodes";
-import { STATS } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Všechny díly podcastu",
@@ -22,11 +21,11 @@ export default async function EpisodesPage() {
     series: e.series,
     search: fold(`${e.title} ${e.guest ?? ""} ${e.series} ${e.label} ${e.description}`),
   }));
-  const rows = Object.fromEntries(episodes.map((e) => [e.slug, <EpisodeRow key={e.slug} episode={e} />]));
+  const rows = Object.fromEntries(episodes.map((e) => [e.slug, <EpisodeRow key={e.slug} episode={e} showYear={e.date.slice(0, 4) !== episodes[0].date.slice(0, 4)} />]));
 
   return (
     <>
-      <ArchiveList items={items} rows={rows} total={STATS.episodesTotal} />
+      <ArchiveList items={items} rows={rows} total={String(episodes.length)} />
       <ListenOn />
       <CtaBand placement="dily-band" />
     </>

@@ -37,9 +37,9 @@ function Spotlight({ latest, interview }: { latest: Episode; interview?: Episode
         href={`/dily/${latest.slug}`}
         className="on-dark relative flex min-h-[360px] min-w-0 flex-[999_1_640px] flex-col justify-end overflow-hidden bg-ink p-5 text-bg no-underline md:min-h-[480px] md:justify-between md:p-8"
       >
-        {latest.image && (
+        {(latest.image ?? latest.cover) && (
           <Image
-            src={latest.image}
+            src={(latest.image ?? latest.cover)!}
             alt=""
             fill
             priority
@@ -77,9 +77,9 @@ function Spotlight({ latest, interview }: { latest: Episode; interview?: Episode
           href={`/dily/${interview.slug}`}
           className="flex min-w-0 flex-[1_1_360px] flex-row bg-accent text-ink no-underline md:flex-col"
         >
-          {interview.image && (
+          {(interview.image ?? interview.cover) && (
             <Image
-              src={interview.image}
+              src={(interview.image ?? interview.cover)!}
               alt={interview.guest ?? ""}
               width={406}
               height={640}
@@ -177,17 +177,17 @@ export default async function HomePage() {
             <div>
               <h2 className="display m-0 text-5xl leading-[0.95] md:text-[80px] md:leading-[0.9]">Poslední díly</h2>
               <p className="m-0 mt-2 text-[15px] text-body md:mt-3 md:text-[17px]">
-                Každý čtvrtek nové Espresso, k tomu velké rozhovory.
+                Každý pátek nové Espresso, k tomu velké rozhovory.
               </p>
             </div>
             <Link href="/dily" className="eyebrow hidden py-2 text-[15px] md:inline-block">
-              Všech {STATS.episodesTotal} dílů →
+              Všech {episodes.length} dílů →
             </Link>
           </div>
           <Spotlight latest={latest} interview={interview} />
           <EpisodeList episodes={rest} />
           <Link href="/dily" className="btn btn-outline mt-5 w-full text-sm md:hidden">
-            Všech {STATS.episodesTotal} dílů
+            Všech {episodes.length} dílů
           </Link>
         </div>
       </section>

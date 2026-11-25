@@ -5,7 +5,7 @@ shortWith: Radimem
 role: Olympionik v XCO a na silnici, šéf týmu Česká spořitelna – Accolade
 discipline: XCO, silnice
 team: Česká spořitelna – Accolade
-order: 1
+order: 4
 episodes: []
 photo: /images/korinek.jpg
 ---

@@ -5,8 +5,8 @@ shortWith: Tomášem
 role: [role]
 discipline: 
 team: 
-order: 5
-episodes: [Rozhovor #20]
+order: 14
+episodes: []
 photo: 
 ---
 [Krátké bio hosta.]

@@ -5,8 +5,8 @@ shortWith: Honzou
 role: [role]
 discipline: 
 team: 
-order: 4
-episodes: [Rozhovor #25]
+order: 17
+episodes: []
 photo: 
 ---
 [Krátké bio hosta.]

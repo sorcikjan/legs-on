@@ -7,7 +7,7 @@ minutes: 4
 date: 2026-10-23
 episode: espresso-093
 guests: []
-featured: 2
+featured: 0
 image: /images/picnic.jpg
 imageAlt: Jezdci týmu Picnic
 ---

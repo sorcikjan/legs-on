@@ -15,7 +15,7 @@ type Props = {
 export function PlayButton({ episode, size = 44, iconSize = 16, variant = "dark", label }: Props) {
   const { toggle, isCurrent, playing } = usePlayer();
   const active = isCurrent(episode.slug) && playing;
-  const name = label ?? `${episode.series} ${episode.label}`;
+  const name = label ?? `${episode.series} ${episode.label}`.trim();
   return (
     <button
       type="button"

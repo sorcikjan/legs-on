@@ -11,10 +11,17 @@ import { JsonLd } from "@/components/JsonLd";
 import { Chapters, EpisodePlayer } from "@/components/player/EpisodePlayer";
 import { SubscribeLink } from "@/components/TrackedLink";
 import { getArticles, getGuest, getGuests } from "@/lib/content";
-import { episodeRef, getEpisode, getEpisodes, playable } from "@/lib/episodes";
+import { episodeRef, episodeTag, getEpisode, getEpisodes, playable, type Series } from "@/lib/episodes";
 import { longDate } from "@/lib/format";
 import { podcastEpisodeLd } from "@/lib/jsonld";
 import { PLATFORMS } from "@/lib/site";
+
+const SERIES_NAMES: Record<Series, string> = {
+  Rozhovor: "Rozhovory",
+  Espresso: "Espresso",
+  Příběhy: "Příběhy pelotonu",
+  Speciál: "Speciály",
+};
 
 export async function generateStaticParams() {
   return (await getEpisodes()).map((e) => ({ slug: e.slug }));
@@ -25,10 +32,12 @@ export async function generateMetadata({ params }: PageProps<"/dily/[slug]">): P
   if (!episode) return {};
   const title =
     episode.series === "Rozhovor" && episode.guest
-      ? `${episode.guest}: ${episode.title} (rozhovor ${episode.label})`
-      : `Espresso ${episode.label}: ${episode.title}`;
+      ? episode.guest === episode.title
+        ? `${episode.guest} (rozhovor ${episode.label})`
+        : `${episode.guest}: ${episode.title} (rozhovor ${episode.label})`
+      : `${episodeTag(episode)}: ${episode.title}`;
   const description = episode.description.startsWith("[")
-    ? `${episode.series} ${episode.label} podcastu LEGS:ON – ${episode.title} Poslechni si díl, kapitoly a přepis.`
+    ? `${episodeTag(episode)} podcastu LEGS:ON – ${episode.title} Poslechni si díl, kapitoly a přepis.`
     : episode.description;
   return {
     title,
@@ -38,7 +47,7 @@ export async function generateMetadata({ params }: PageProps<"/dily/[slug]">): P
       type: "website",
       title,
       description,
-      images: episode.image ? [episode.image] : ["/images/picnic.jpg"],
+      images: episode.image || episode.cover ? [(episode.image ?? episode.cover)!] : ["/images/picnic.jpg"],
     },
   };
 }
@@ -70,8 +79,8 @@ export default async function EpisodePage({ params }: PageProps<"/dily/[slug]">)
         className="wrap pb-4"
         items={[
           { name: "Díly", href: "/dily" },
-          { name: isInterview ? "Rozhovory" : "Espresso", href: "/dily" },
-          { name: episode.label, href: `/dily/${episode.slug}` },
+          { name: SERIES_NAMES[episode.series], href: "/dily" },
+          { name: episode.label || episode.title, href: `/dily/${episode.slug}` },
         ]}
       />
 
@@ -80,22 +89,30 @@ export default async function EpisodePage({ params }: PageProps<"/dily/[slug]">)
         <div className="flex flex-wrap">
           <div className="flex min-w-0 flex-[1_1_360px] flex-col justify-between gap-6 bg-accent px-4 py-8 md:min-h-[560px] md:gap-10 md:p-10">
             <p className="eyebrow m-0 text-[13px] tracking-[2px] md:text-[15px]">
-              {episode.series} {episode.label} · {longDate(episode.date)}
+              {episodeTag(episode)} · {longDate(episode.date)}
             </p>
             <div>
               {isInterview && episode.guest ? (
                 <>
                   <p className="display m-0 text-[28px] leading-none md:text-[40px]">Rozhovor s</p>
-                  <p className="display m-0 break-words text-[72px] leading-[0.9] md:text-[clamp(72px,7.5vw,112px)]">{firstName}</p>
+                  <p
+                    className={`display m-0 text-[72px] leading-[0.9] ${
+                      firstName.length > 5 ? "md:text-[clamp(56px,5.2vw,78px)]" : "md:text-[clamp(72px,7.5vw,112px)]"
+                    }`}
+                  >
+                    {firstName}
+                  </p>
                 </>
               ) : (
-                <p className="display m-0 text-[64px] leading-[0.9] md:text-[clamp(64px,6vw,96px)]">Espresso</p>
+                <p className="display m-0 text-[64px] leading-[0.9] md:text-[clamp(64px,6vw,96px)]">
+                  {episode.series === "Příběhy" ? "Příběhy pelotonu" : episode.series}
+                </p>
               )}
             </div>
           </div>
 
           <div className="on-dark flex min-w-0 flex-[999_1_560px] flex-col gap-7 bg-ink px-4 py-8 text-bg md:p-10">
-            {episode.image && (
+            {episode.image ? (
               <Image
                 src={episode.image}
                 alt={episode.guest ?? ""}
@@ -107,6 +124,18 @@ export default async function EpisodePage({ params }: PageProps<"/dily/[slug]">)
                   isInterview ? "object-top" : ""
                 }`}
               />
+            ) : (
+              episode.cover && (
+                <Image
+                  src={episode.cover}
+                  alt=""
+                  width={760}
+                  height={760}
+                  priority
+                  sizes="380px"
+                  className="block h-auto w-full max-w-[380px] self-center"
+                />
+              )
             )}
             <div>
               {isInterview && lastName ? (
@@ -117,7 +146,7 @@ export default async function EpisodePage({ params }: PageProps<"/dily/[slug]">)
                       {episode.guest}: {episode.title}
                     </span>
                   </h1>
-                  <p className="m-0 mt-3 text-lg md:text-[22px]">{episode.title}</p>
+                  {episode.title !== episode.guest && <p className="m-0 mt-3 text-lg md:text-[22px]">{episode.title}</p>}
                 </>
               ) : (
                 <h1 className="display m-0 text-[40px] leading-[0.98] md:text-[clamp(40px,4.5vw,64px)]">{episode.title}</h1>

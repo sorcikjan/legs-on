@@ -30,13 +30,13 @@ export function podcastEpisodeLd(e: Episode) {
   return {
     "@context": "https://schema.org",
     "@type": "PodcastEpisode",
-    name: e.guest ? `${e.title} | ${e.guest}` : e.title,
+    name: e.guest && e.guest !== e.title ? `${e.title} | ${e.guest}` : e.title,
     url: abs(`/dily/${e.slug}`),
-    episodeNumber: e.num,
+    episodeNumber: e.num || undefined,
     datePublished: e.date,
     description: e.description,
     timeRequired: isoDuration(e.minutes),
-    image: e.image ? abs(e.image) : undefined,
+    image: e.image ? abs(e.image) : e.cover,
     partOfSeries: series,
     associatedMedia: {
       "@type": "MediaObject",

@@ -23,7 +23,7 @@ export default async function GuestsPage() {
   const cards = Object.fromEntries(
     guests.map((g) => {
       const eps = episodes.filter((e) => e.guestSlug === g.slug).map(episodeTag);
-      const label = [...eps, ...g.episodeLabels].join(" · ") || "[díl]";
+      const label = [...new Set([...eps, ...g.episodeLabels])].join(" · ") || "[díl]";
       return [
         g.slug,
         <Link key={g.slug} href={`/hoste/${g.slug}`} className="group flex flex-col gap-2 no-underline md:gap-3">
@@ -63,7 +63,6 @@ export default async function GuestsPage() {
               <Link href={`/hoste/${g.slug}`}>{g.name}</Link>
             </span>
           ))}
-          {" · "}[další jména z archivu]
         </p>
       </section>
       <CtaBand placement="hoste-band" />

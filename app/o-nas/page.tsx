@@ -10,7 +10,7 @@ import { CONTACT_EMAIL, STATS } from "@/lib/site";
 export const metadata: Metadata = {
   title: "O nás – Petr a Honza",
   description:
-    "Za mikrofonem LEGS:ON jsou Petr a Honza. Cyklistický podcast točíme od roku 2021: velké rozhovory a každý čtvrtek Espresso z pelotonu.",
+    "Za mikrofonem LEGS:ON jsou Petr a Honza. Cyklistický podcast točíme od roku 2021: velké rozhovory a každý pátek Espresso z pelotonu.",
   alternates: { canonical: "/o-nas" },
 };
 
@@ -18,7 +18,7 @@ export default async function AboutPage() {
   const episodes = await getEpisodes();
   const maxNum = (series: string) => Math.max(0, ...episodes.filter((e) => e.series === series).map((e) => e.num));
   const stats = [
-    { value: STATS.episodesTotal, label: "dílů" },
+    { value: String(episodes.length), label: "dílů" },
     { value: String(maxNum("Rozhovor")), label: "velkých rozhovorů" },
     { value: String(maxNum("Espresso")), label: "Espress" },
     { value: String(STATS.since), label: "šlapeme od" },
@@ -58,7 +58,7 @@ export default async function AboutPage() {
           <div className="min-w-0 flex-[999_1_560px] leading-[1.7] md:text-[19px]">
             <p className="m-0">První díl vyšel v březnu 2021. [Doplnit: proč jste začali, první host, co se od té doby změnilo.]</p>
             <p className="m-0 mt-5">
-              Dnes máme přes 150 dílů ve dvou formátech: velké rozhovory s lidmi, kteří cyklistikou žijí, a týdenní Espresso o
+              Dnes máme přes 150 dílů ve dvou hlavních formátech: velké rozhovory s lidmi, kteří cyklistikou žijí, a týdenní Espresso o
               dění v pelotonu.
             </p>
           </div>
@@ -83,7 +83,7 @@ export default async function AboutPage() {
         <Link href="/dily" className="on-dark flex min-h-[260px] flex-col justify-between gap-3 bg-ink p-8 text-bg no-underline md:p-10">
           <p className="display m-0 text-5xl leading-none">Espresso</p>
           <p className="m-0 text-on-dark-muted">
-            Každý čtvrtek půl hodiny o tom, co se děje v pelotonu. Tak šlapej těma nohama a jedem!!!
+            Každý pátek půl hodiny o tom, co se děje v pelotonu. Tak šlapej těma nohama a jedem!!!
           </p>
           <span className="eyebrow text-sm">Všechna espressa →</span>
         </Link>
