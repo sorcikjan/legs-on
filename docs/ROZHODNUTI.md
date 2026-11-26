@@ -4,6 +4,15 @@ Nejnovější nahoře. Kdo = kdo rozhodl nebo schválil (Jan / tvůrci / společ
 
 | Datum | Rozhodnutí | Proč | Kdo |
 |---|---|---|---|
+| 2026-11-26 | Web spouští Jan najednou v den D: do té doby skrytý pro roboty i veřejnost, indexace Googlem až od dne D. | Maximální marketingový efekt spuštění, nic nesmí prosáknout předem. | Jan |
+| 2026-11-26 | Web spravuje a provozuje Jan. Projekt běží samostatně, odděleně od ostatních Janových projektů. | Jednodušší provoz bez předávky. | Jan |
+| 2026-11-26 | Rozpočet drží kalkulace „LEGS:ON web – roční kalkulace nákladů“ (cca 4 100 Kč/rok). Všechny platby jdou z karty, kterou tvůrci vydají jen pro tento účel. | Malý projekt, odhad slíbený tvůrcům se nesmí výrazně minout. | Jan + tvůrci |
+| 2026-11-26 | Obsah připravuje web sám, publikuje se po schválení člověkem (human in the loop). Součástí releasu je administrace pro tvůrce, napojená na jejich současné workflow. | Kvalita obsahu bez ruční práce navíc. | Jan + tvůrci |
+| 2026-11-26 | E-shop s merchem je fáze 1 po vánočním releasu. Produktově se načrtne hned, právní a účetní rámec se řeší samostatně a pečlivě. | Je to samostatná komplexita, nesmí ohrozit release. | Jan + tvůrci |
+| 2026-11-26 | Newsletter je ve vánočním releasu, se zachováním stávajících odběratelů. | Tvůrci na něj kladou velký důraz. | tvůrci |
+| 2026-11-26 | Vánoční release (cca měsíc): statické stránky, díly s odkazy na streamy, články, podpůrné stránky (partneři, předplatné), newsletter, administrace. Ostatní se fázuje. | Web jako vánoční dárek posluchačům; pevné základy bez pozdějšího předělávání. | Jan + tvůrci |
+| 2026-11-26 | Byznysový cíl: za rok zdvojnásobit předplatitele (z cca 100 na 200). Cíl dosahu: z řádově stovek na tisíce poslechů na díl. | Měřítko úspěchu webu. | Jan + tvůrci |
+| 2026-11-26 | Směr na rok: od domova podcastu k CZ/SK cyklistickému zpravodajskému webu, po fázích. Eventy pro komunitu jsou ve výhledu. | Tvůrci s vizí souhlasí, obsah mají, konkurence je malá. | Jan + tvůrci |
 | 2026-11-26 | Zakázka na základní verzi webu potvrzena. | Prototyp tvůrci viděli 25. 11. | tvůrci |
 | 2026-11-26 | Projekt má vlastní Claude session, paměť a dokumenty, oddělené od nhl-momentum. | Aby si projekty nepletly kontext. | Jan |
 | 2026-11-25 | Díly se berou z oficiálního RSS feedu (Spotify for Creators), obnova jednou denně, záloha `data/feed.json`. | Web vždy ukazuje aktuální díly bez ruční práce. | Jan |

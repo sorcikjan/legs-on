@@ -11,12 +11,17 @@ Po zodpovězení přesunout odpověď do `ROZHODNUTI.md` a otázku smazat.
 - [ ] **Články:** titulky a perexy nových článků jsou pracovní, odvozené z popisů dílů. Kdo bude články psát nebo schvalovat? Přepisy dílů?
 - [ ] **Kapitoly:** časy kapitol – dají se doplňovat do popisu dílu na Spotify, aby je web načetl sám?
 
+- [ ] **Newsletter:** v jaké službě jsou stávající odběratelé, kolik jich je a co a jak často jim posíláte? Na jakou adresu se mají přihlašovat? (Ecomail je zdarma jen do 200 kontaktů.)
+- [ ] **Den D:** konkrétní datum, kdo a kdy schvaluje finální verzi a do kdy se ještě mohou měnit texty.
+- [ ] **Fotky:** odkud se smějí brát fotky k článkům (vlastní, od hostů, z agentur)? Licence agenturních fotek stojí peníze, které nejsou v kalkulaci.
+- [ ] **Provozovatel webu:** kdo je uveden jako provozovatel (kvůli GDPR, newsletteru a později e-shopu): Jan, tvůrci, nebo firma?
+
 ## Partneři a kontakty
 - [ ] Statistiky (poslechy, dosah, completion rate), ceník spoluprací, loga partnerů.
 - [ ] Telefon, Facebook (existuje?), je ciao@legson.cz správný kontakt pro web?
 
 ## Technika a provoz
 - [ ] **Fotky:** originály fotek k obálkám (teď výřezy z obálek s textem).
-- [ ] **Doména legson.cz:** kdo ji spravuje, co na ní teď běží, přístup k DNS.
-- [ ] **Hosting:** Netlify účet na tvůrce (náklady nese klient) nebo na Jana?
+- [ ] **Doména legson.cz:** vlastní ji tvůrci, teď na ní běží rozcestník na sociální sítě. U kterého registrátora je a kdy může Jan dostat přístup k DNS? Ten je potřeba dlouho před dnem D kvůli odesílání newsletteru (SPF/DKIM).
+- [ ] **Účty služeb:** platí karta tvůrců, provozuje Jan. Účty založit na společný e-mail podcastu, ne na Janův osobní. Který e-mail to bude?
 - [ ] **Analytika:** Plausible / Umami / GA4 s cookie lištou – kdo platí, kdo má přístup?
