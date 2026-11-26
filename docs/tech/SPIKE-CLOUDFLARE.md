@@ -157,7 +157,7 @@ Pravidla: slug je malými písmeny bez diakritiky; publikovaný slug se nemění
 6. **Zero Trust:** dash → Zero Trust → onboarding, zvolit tým (např. `legson`), plán **Free** (chce kartu, neúčtuje se). Settings → Authentication: ponechat One-time PIN (e-mailový kód, nic dalšího nezakládat).
 7. **Access → Applications → Add → Self-hosted:** vytvořit aplikace 1, 2, 3 podle výše. Politiky: Allow → Emails (3 adresy); u aplikace 3 politika Service Auth + token vytvořený v Access → Service credentials. Z aplikace 2 zkopírovat **Application Audience (AUD) Tag**.
 8. Do Workeru dát proměnné `ACCESS_TEAM_DOMAIN` (`legson.cloudflareaccess.com`) a `ACCESS_AUD` (z kroku 7).
-9. Workers & Pages → legson-web → Settings → Domains & Routes: přidat `legson.cz`, **vypnout `workers.dev` a Preview URL** (jinak obejdou Access).
+9. Workers & Pages → legs-on → Settings → Domains & Routes: přidat `legson.cz`, **vypnout `workers.dev` a Preview URL** (jinak obejdou Access).
 10. Settings → Billing: nastavit upozornění; případně Workers Paid pouze pokud CPU metrika po testu ukáže překročení 10 ms. Nastavit Workers spending limit.
 11. V den D: smazat Access aplikaci 1, v GitHub proměnných `SITE_PUBLIC=true`, redeploy (robots a sitemap se generují při buildu).
 
