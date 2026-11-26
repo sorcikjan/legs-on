@@ -1,5 +1,8 @@
 export const SITE_URL = "https://legson.cz";
 export const SITE_NAME = "LEGS:ON";
+
+/** Do dne D false: noindex, zákaz v robots.txt a heslo (proxy.ts). Zapíná se proměnnou SITE_PUBLIC=true. */
+export const SITE_PUBLIC = process.env.SITE_PUBLIC === "true";
 export const SITE_DESCRIPTION =
   "Cyklistický podcast Petra a Honzy. Rozhovory s lidmi, kteří cyklistikou žijí, a každý pátek Espresso z pelotonu.";
 

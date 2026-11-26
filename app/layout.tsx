@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MiniPlayer } from "@/components/player/MiniPlayer";
 import { PlayerProvider } from "@/components/player/PlayerProvider";
-import { PODCAST_RSS_URL, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { PODCAST_RSS_URL, SITE_DESCRIPTION, SITE_NAME, SITE_PUBLIC, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const anton = Anton({
@@ -27,6 +27,7 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
+  ...(!SITE_PUBLIC && { robots: { index: false, follow: false } }),
   // Canonical si nastavuje každá stránka sama.
   ...(PODCAST_RSS_URL && {
     alternates: {
