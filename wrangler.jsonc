@@ -9,7 +9,7 @@
   "images": { "binding": "IMAGES" },
   "r2_buckets": [{ "binding": "NEXT_INC_CACHE_R2_BUCKET", "bucket_name": "legson-next-cache" }],
   "d1_databases": [
-    { "binding": "DB", "database_name": "legson", "database_id": "local-placeholder", "migrations_dir": "migrations" },
-    { "binding": "NEXT_TAG_CACHE_D1", "database_name": "legson", "database_id": "local-placeholder" }
+    { "binding": "DB", "database_name": "legson", "database_id": "f0f8f5b9-7ed9-42db-80f4-4a2b071f5f96", "migrations_dir": "migrations" },
+    { "binding": "NEXT_TAG_CACHE_D1", "database_name": "legson", "database_id": "f0f8f5b9-7ed9-42db-80f4-4a2b071f5f96" }
   ]
 }
