@@ -4,6 +4,10 @@ Nejnovější nahoře. Kdo = kdo rozhodl nebo schválil (Jan / tvůrci / společ
 
 | Datum | Rozhodnutí | Proč | Kdo |
 |---|---|---|---|
+| 2026-11-26 | Do dodání karty a účtů od tvůrců běží web na Janově Cloudflare účtu (bezplatný tarif). Vše je popsané v kódu (wrangler.jsonc, migrace), přesun na účet tvůrců = nový setup + export/import D1. | Práce nesmí čekat na enablery od tvůrců. | Jan |
+| 2026-11-26 | Datový model na rok (report `docs/tech/SPIKE-CLOUDFLARE.md`): e-shop tabulky se do vánočního releasu neposílají (`migrations-later/`), projdou se s účetní. | Nové tabulky se dají přidat kdykoli bez přestavby. | Jan |
+| 2026-11-26 | Budoucí adresy: `/merch`, `/autori`, `/newsletter`; `/jezdci`, `/tymy`, `/zavody` jen rezervované. Současné adresy se nemění. | SEO: adresy se po indexaci nesmí měnit. | Jan |
+| 2026-11-26 | Podmínka spuštění: test, že všech 157 dílů má v DB stejný slug jako dnes. | Ochrana SEO a odkazů. | Jan |
 | 2026-11-26 | Next.js se upgraduje na 16.4.6 a vypne se `cacheComponents`. Pokus (report `docs/tech/SPIKE-CLOUDFLARE.md` na větvi pokusu) potvrdil, že Cloudflare + D1 + okamžité publikování fungují. | OpenNext pro Cloudflare 16.4.3 nepodporuje a `cacheComponents` na workerd vrací 500; upgrade zároveň opravuje známou zranitelnost. | Jan |
 | 2026-11-26 | E-shop bude vlastní a jednoduchý, přímo na webu: produkty v administraci, platba QR kódem převodem, bez platební brány. Shoptet ne. Produkty a objednávky se zahrnou do datového modelu hned, staví se po Vánocích. | Jednotky produktů a desítky objednávek ročně: Shoptet by stál víc než zbytek webu (řádově stovky Kč měsíčně) a vypadal by jinak. Na Shoptet se dá přejít, kdyby objem výrazně vzrostl. | Jan |
 | 2026-11-26 | Obsah administrace (díly, články a jejich stavy) bude v databázi Cloudflare D1, přihlášení přes Cloudflare Access. Hosté zatím zůstávají jako soubory v repu. Před stavbou ověří Engineering Lead pokusem, že to funguje s Next.js 16. | Standardní redakční chování (změna je vidět hned po kliknutí), růst ke zpravodajskému webu, bez nákladů navíc oproti kalkulaci. | Jan |
