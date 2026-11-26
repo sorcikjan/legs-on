@@ -1,15 +1,17 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { getDb } from "@/lib/db";
 
-// SPIKE: čtení z D1 ve Server Component; stránka je ISR (revalidate 1 den) a po zápisu se invaliduje přes revalidatePath.
+// SPIKE: vzor pro stránky závislé na D1. Seznam je ISR, při buildu se D1 nečte, po zápisu revalidatePath.
 export const revalidate = 86400;
 
 export default async function Page() {
-  const { env } = await getCloudflareContext({ async: true });
-  const { results } = await env.DB.prepare("SELECT id, text FROM spike_note ORDER BY id").all<{ id: number; text: string }>();
+  const db = await getDb();
+  const rows: { id: number; title: string }[] = db
+    ? ((await db.prepare("SELECT id, title FROM articles WHERE deleted_at IS NULL ORDER BY id").all()).results as { id: number; title: string }[])
+    : [];
   return (
     <main>
       <p>rendered {new Date().toISOString()}</p>
-      <ul>{results.map((r: { id: number; text: string }) => <li key={r.id}>{r.id}: {r.text}</li>)}</ul>
+      <ul>{rows.map((r) => <li key={r.id}>{r.id}: {r.title}</li>)}</ul>
     </main>
   );
 }

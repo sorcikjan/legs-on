@@ -43,7 +43,7 @@ export async function verifyAccessJwt(
     const aud: string[] = Array.isArray(payload.aud) ? payload.aud : [payload.aud];
     const now = Date.now() / 1000;
     if (!aud.includes(env.aud) || payload.iss !== `https://${env.teamDomain}` || payload.exp < now) return null;
-    return { email: String(payload.email ?? "") };
+    return { email: String(payload.email ?? payload.common_name ?? "") }; // service token má common_name místo e-mailu
   } catch {
     return null;
   }

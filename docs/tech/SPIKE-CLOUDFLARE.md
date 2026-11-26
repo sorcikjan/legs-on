@@ -21,7 +21,7 @@ Datum: 2026-11-26. Větev: `worktree-agent-a9e72bf3a0b45858f`. Vše ověřeno lo
 | 9 | Záloha RSS | `PODCAST_RSS_URL=http://127.0.0.1:1/x next build` | Log `Načtení RSS selhalo, používám data/feed.json`, build pokračuje. Živý feed z anchor.fm vrací 200, ve výstupu 157 dílů (shodně s `feed.json`) |
 | 10 | D1 lokálně | `wrangler d1 migrations apply DB --local`; Server Component čte `env.DB` přes `getCloudflareContext({async:true})`, route handler `POST /api/spike` zapisuje | Funguje. Pozor: `next build` při prerenderu volá D1 také (lokální) – viz riziko 2 |
 | 11 | Okamžité publikování | skript: GET (HIT) → POST zápis + `revalidatePath` → GET → GET | `x-nextjs-cache: HIT` s 2 řádky → po zápisu **MISS** s novým řádkem (nový čas renderu) → HIT. Změna je vidět na první následující návštěvě. Konfigurace: R2 incremental cache + D1 tag cache + memory queue |
-| 12 | Schéma | `migrations/0002_obsah.sql` aplikováno do odděleného lokálního D1 | Prošlo. CHECK `status != 'published' OR published_at IS NOT NULL` odmítl neplatný zápis (`SQLITE_CONSTRAINT_CHECK`); join článek→díl vrací očekávaný řádek; měkké smazání filtrováno `deleted_at IS NULL` |
+| 12 | Schéma | `migrations/0001_obsah.sql` (původní verze, později přepsána, viz Datový model na rok) aplikováno do odděleného lokálního D1 | Prošlo. CHECK `status != 'published' OR published_at IS NOT NULL` odmítl neplatný zápis (`SQLITE_CONSTRAINT_CHECK`); join článek→díl vrací očekávaný řádek; měkké smazání filtrováno `deleted_at IS NULL` |
 | 13 | Ověření Access JWT | `npm run test:access` (vlastní RSA klíč + falešný JWKS) | 9/9: platný token projde; prošlý, cizí AUD, cizí issuer, cizí klíč, neznámé `kid`, `alg: none`, chybějící token i chybějící konfigurace jsou odmítnuty |
 | 14 | `tsc --noEmit`, `next build` | | Čisté |
 
@@ -64,17 +64,80 @@ Stavět na **16.4.6**. 16.4.3 OpenNext 1.20.19 odmítne (peer `>=16.4.5`), takž
 
 ## Datový model a architektura administrace
 
-Schéma: `migrations/0002_obsah.sql` (wrangler d1 migrations, `0001_spike.sql` smazat při reálné implementaci).
+Schéma: `migrations/0001_obsah.sql` (díly, články, lidé, štítky, fotky, přesměrování, audit), `0002_newsletter.sql`, `0003_eshop.sql` (wrangler d1 migrations; spike tabulka je pryč). Podrobnosti a zdůvodnění níže v „Datový model na rok".
 
-- `episodes`: PK `guid` z RSS, `slug` unikátní, pole z RSS vlastní synchronizace (`rss_hash` pro detekci změny), ručně doplněná pole (`chapters_json`, `transcript_json`, `guest_slugs_json`) sync nikdy nepřepisuje. `status` draft/published/withdrawn, `deleted_at`.
-- `articles`: `status` draft → published → withdrawn, `publish_at` (plánování), `published_at`, `source` (manual/llm/import, připraveno na fázi 2), `deleted_at`. CHECK brání published bez data.
-- `article_episodes`, `article_guests`: propojení článek-díl-host z dat. Hosté zůstávají v markdownu, odkaz je textový slug bez cizího klíče.
-- `audit_log`: kdo (e-mail z Access / `sync-rss`), co, kdy; základ pro obnovení a schvalování LLM návrhů.
-- Později bez změny stávajících tabulek: `guests`, `topics`, `newsletter_subscribers`, `newsletter_issues`, `article_revisions`. Plánované publikování: veřejný dotaz filtruje `status='published' AND published_at<=now`, plus cron/Action volá revalidaci.
+Architektura: veřejné stránky jsou ISR (R2 cache), čtou D1; admin (`/admin`, Server Actions) zapisuje do D1, zapíše `audit_log` a zavolá `revalidatePath`. Tag cache a obsah sdílejí jednu D1 databázi `legson` (dva bindingy, `NEXT_TAG_CACHE_D1` a `DB`); tabulku `revalidations` vytvoří `opennextjs-cloudflare populateCache` samo.
 
-Architektura: veřejné stránky jsou ISR (R2 cache), čtou D1; admin (`/admin`, Server Actions) zapisuje do D1, zapíše `audit_log` a zavolá `revalidatePath`/`revalidateTag` (ověřeno kap. 11). Tag cache a obsah sdílejí jednu D1 databázi `legson` (dva bindingy, `NEXT_TAG_CACHE_D1` a `DB`); tabulku `revalidations` vytvoří `opennextjs-cloudflare populateCache` samo.
+## Vzor stránek závislých na D1 (rozhodnutí pro psaní administrace)
 
-Pozor na prerender: `next build` čte D1 přes binding (v CI by to byl prázdný lokální stav). Veřejné stránky, které závisí na D1, buď musí `generateStaticParams` vracet prázdné (a renderovat se při první návštěvě), nebo se při buildu čte z `--remote`. Doporučení: `generateStaticParams` prázdné + `dynamicParams` (první návštěva rendruje, další jdou z cache); díly z RSS se do indexu a sitemap dostanou z D1 za běhu.
+**Doporučení: ISR na vyžádání. Build D1 nečte, po každém nasazení se vše revaliduje, časová revalidace slouží jako záchranná síť.**
+
+1. `lib/db.ts` (`getDb()`) vrací při `next build` `null`; datová vrstva pak vrací prázdný výsledek. Build tedy nespadne na chybějících tabulkách a nezapeče cizí data. Ověřeno: build s úplně smazaným `.wrangler/state` projde.
+2. Detailní stránky (`/dily/[slug]`, `/clanky/[slug]`, `/hoste/[slug]` ...): `generateStaticParams` vrací `[]`, `dynamicParams` zůstává zapnuté. Stránka se vyrenderuje při první návštěvě, uloží do R2 a drží do `revalidatePath`.
+3. Seznamy, homepage, sitemap, robots: Next je při buildu prerenderuje (s prázdnými daty). **Nasazením se tak do cache dostane prázdná stránka.** Ověřeno: po deployi byl `/spike-d1` HIT s prázdným seznamem, zápis do D1 bez revalidace nic nezměnil (stále prázdný HIT), až `revalidatePath` dal MISS s daty.
+   - Proto je součástí deploye krok „po nasazení zavolej `POST /api/revalidate`" (service token Access), který udělá `revalidatePath('/', 'layout')`. Ověřeno: jedno volání zneplatní `/`, `/dily`, `/clanky`, `/sitemap.xml` i spike seznam (vše MISS při další návštěvě); stránky se dorenderují líně.
+   - Záchranná síť: `export const revalidate = 900` na seznamech. Když se krok po deployi zapomene, web se do 15 min sám napraví.
+4. Každý zápis v administraci revaliduje přesně: detail entity, seznamy, kde se zobrazuje (`/dily`, `/clanky`, `/clanky/tema/..`, `/autori/..`, `/hoste/..`, `/`), `/sitemap.xml`. Při změně slugu navíc starou cestu.
+5. Plánované publikování: veřejný dotaz filtruje `status='published' AND published_at <= now`. Stránka zveřejněná v budoucnu by ale zůstala v cache bez změny, proto Cron Trigger (zdarma, 5 na účet) každých 15 minut najde články s `published_at` v posledním okně a zavolá revalidaci. Bez crona se projeví nejpozději s časovou revalidací seznamů (15 min).
+
+Proč ne alternativy: `force-dynamic` na všech stránkách by renderovalo při každé návštěvě (ohrožuje CPU limit 10 ms na Free, žádná cache); build proti vzdálené D1 (`remote` binding) by vázal CI na produkční data a po každém zápisu by stejně musela revalidace běžet; build-time prázdná stránka bez revalidace je nejhorší (viz ověření výše).
+
+Hranice Cache Components: vzor je záměrně bez `"use cache"` (viz verze Next.js).
+
+## Datový model na rok
+
+Legenda: **A** uneseme beze změny, **B** uneseme po úpravě modelu hned (provedeno v migracích), **C** muselo by se předělat (po úpravě žádný scénář není C).
+
+| # | Scénář | Původní model (spike) | Stav | Co se změnilo |
+|---|---|---|---|---|
+| 1 | Zpravodajský provoz, víc autorů, stránka autora, Person JSON-LD | `articles.author` jen text | B | Tabulka `people` (společná pro hosty, autory, jezdce, moderátory) s `same_as_json`, `job_title`, `bio_md`, foto; vazba `article_people(role='author')`. Autor bez účtu (externista) je jen řádek v `people`, `access_email` váže přihlášeného redaktora na autora. Formát článku `articles.format` (glosa, výsledky, rozbor), `lang` cs/sk, `modified_at` pro `dateModified` |
+| 2 | Témata a štítky, jezdci/týmy/závody | téma jen jako text | B | Tabulka `tags(kind, slug, ...)` s `kind` topic/team/race (další druhy bez migrace), `article_tags`, `episode_tags`, `articles.primary_tag_id`, `tags.noindex` pro prázdné štítky. Jezdci jsou `people.is_rider` (host a jezdec je tentýž řádek, žádná duplicita) |
+| 3 | Hosté, vazby díl↔host, článek↔host | `article_guests` se slugem, na díle JSON | B | `people` + `episode_people(role guest/host)` + `article_people(role author/guest/about)`. Markdown hosté (`content/hoste`) se importují do `people` jednorázovým skriptem; do té doby zůstávají v souborech a vazby se čtou ze slugu |
+| 4 | Plánované publikování, editace, změna slugu | `publish_at` vedle `published_at` (dvojí pravda), bez historie a přesměrování | B | Plánování = `published` + `published_at` v budoucnu (jedna pravda, CHECK drží datum). `article_revisions` (verze, návrat), `modified_at`, `approved_by/at` s CHECK „zveřejnit lze jen schválené" (human in the loop vynucený v DB, i pro LLM koncepty). `redirects(from_path, to_path, status)` pro 301/410. Slug publikovaného dílu/článku se v UI zamyká, změna jen výslovně a vždy zapíše přesměrování |
+| 5 | Fotky, autor, licence, výřezy pro Discover | jen URL | B | `media` (R2 klíč originálu, rozměry, `alt`, `credit`, `license` own/permission/cc/agency/unknown, `license_note`, `license_expires_at`, `web_allowed`, `focal_x/y`). Výřezy se nedrží v DB, dělají se za běhu přes Images binding z originálu podle bodu zájmu (16:9 ≥ 1200 px pro Discover, čtverec, OG); admin upozorní na originál pod 1200 px. Fotka po `license_expires_at` se nezobrazuje. Samostatný bucket `legson-media` (R2 Free 10 GB) |
+| 6 | Newsletter | nebylo | B | Odběratelé jen v Ecomailu. DB: `newsletter_issues` (předmět, stav, `external_id`, archiv HTML) a `newsletter_issue_articles`. Žádné e-maily odběratelů v DB (GDPR). Přihlášení z webu volá API Ecomailu ze Server Action |
+| 7 | E-shop | nebylo | B | `products`, `product_variants` (cena v haléřích, sklad volitelný), `orders` (stavy new/paid/shipped/cancelled/refunded, `number` = variabilní symbol, `public_token` pro stránku se QR kódem, doprava flat/pickup), `order_items` (snapshot názvu a ceny), `number_series` (atomické přidělení čísla `UPDATE ... RETURNING`, ověřeno: `20270001`), `documents` (faktura/dobropis se snapshotem prodávajícího a kupujícího, PDF v R2), `seller_profiles` s `valid_from`. **DPH i neplátce:** ceny jsou vždy konečné, sazba je u řádku (`vat_rate_bp`, neplátce 0), základ a daň se dopočítají; plátcovství se mění novým `seller_profiles` řádkem bez přepisu historie. Osobní údaje v objednávce jdou anonymizovat (`anonymized_at`) po lhůtě uchování dokladů. Změny stavů v `audit_log` |
+| 8 | Eventy (výhled) | | A | Nic neblokují: nová tabulka `events` později, znovu použije `people`, `tags`, `media`, `article_*` vazby. URL `/akce` je volná |
+| 9 | Vzor stránek závislých na D1 | nerozhodnuto | A | Viz předchozí oddíl |
+| 10 | URL struktura | | A | Viz URL mapa. Žádná stávající adresa se nemění |
+
+Další úpravy proti spike modelu: odstraněny CHECKy na seznamech, které porostou (`series`, `source`, `kind`): v D1 nejdou měnit bez přestavby tabulky. Ponechány jen na stavových automatech (`status`). `episodes.transcript_json` přesunut do `episode_transcripts` (velký, mění se jinak než díl, fáze 2 ho plní; indexovat jen schválený). `episodes.guest_slugs_json` nahrazeno `episode_people`.
+
+Ověřeno lokálně (`wrangler d1 migrations apply DB --local` a skript nad scratch D1): všechny 3 migrace se aplikují; vložení autora, hosta-jezdce s týmem, štítků, dílu s novou sérií bez CHECK, článku `lang='sk'`, vazeb, přesměrování a řady objednávek projde; článek zveřejněný k 1. 1. 2027 se v dotazu k 18. 12. 2026 nevrací (plánování funguje); `published` bez `published_at` i bez `approved_at` je odmítnuto CHECKem. Neověřeno: výkon dotazů na realném objemu, FTS vyhledávání (D1 podporuje FTS5, přidá se migrací později).
+
+Rizika modelu: (a) migrace slugů 157 dílů: DB musí reprodukovat stávající algoritmus `normalizeEpisode` (např. `42-radovan-stastny`, `espresso-097`); před spuštěním napsat test, že slugy z DB == slugy z dnešního kódu pro všech 157 dílů. (b) E-shop tabulky jsou nejhrubší část; než se začne stavět, projít je znovu s účetní (jsou prázdné, přestavba nic nestojí). (c) `/clanky/tema/...` je rezervovaný prefix: slug článku `tema` je zakázaný (seznam rezervovaných slugů v adminu).
+
+## URL mapa
+
+Stávající adresy (beze změny, vše zůstává):
+
+| URL | Obsah |
+|---|---|
+| `/` | domov |
+| `/dily`, `/dily/[slug]` | archiv a detail dílu |
+| `/clanky`, `/clanky/[slug]`, `/clanky/tema/[tema]` | články, téma (štítek `topic`) |
+| `/hoste`, `/hoste/[slug]` | hosté (`people.is_guest`) |
+| `/o-nas`, `/predplatne`, `/pro-partnery` | statické |
+| `/sitemap.xml`, `/robots.txt` | SEO |
+
+Navržené nové (rezervovat, nestavět předem):
+
+| URL | Obsah | Fáze |
+|---|---|---|
+| `/autori`, `/autori/[slug]` | autoři (Person JSON-LD, E-E-A-T); slug sdílí s `/hoste/[slug]` | vánoční release nebo hned po |
+| `/clanky/tema/[tema]` | téma; **zůstává**, i pro týmy/závody se použijí vlastní prefixy níže | |
+| `/jezdci/[slug]` | jezdec (`people.is_rider`), články a díly o něm | zpravodajská fáze |
+| `/tymy/[slug]`, `/zavody/[slug]` | štítky `team`, `race` | zpravodajská fáze |
+| `/rss.xml` | RSS článků; `/sitemap-news.xml` až při zpravodajském provozu | |
+| `/merch`, `/merch/[slug]` | e-shop (kratší a srozumitelnější než `/obchod`) | fáze 1 |
+| `/objednavka`, `/objednavka/[token]` | pokladna a stránka objednávky se QR platbou (token, `noindex`) | fáze 1 |
+| `/obchodni-podminky`, `/ochrana-osobnich-udaju` | právní stránky (potřeba už u newsletteru) | release |
+| `/newsletter`, `/newsletter/[slug]` | přihlášení a veřejný archiv vydání | release |
+| `/akce`, `/akce/[slug]` | eventy | výhled |
+| `/media/[id]/[nazev].jpg?w=&ar=` | fotky z R2 s ořezem podle bodu zájmu | release |
+| `/admin/*`, `/api/admin/*`, `/api/revalidate` | za Access, `noindex`, mimo sitemap | release |
+
+Pravidla: slug je malými písmeny bez diakritiky; publikovaný slug se nemění; změna = záznam v `redirects` (stránka `[slug]` při nenalezení hledá `from_path` a dělá `permanentRedirect`, `status=410` pro trvale smazané); slugy `tema`, `novy`, `admin` a názvy statických podstránek jsou rezervované. Cesty `/hoste/[slug]` a `/autori/[slug]` mají stejný slug pro stejného člověka; `/jezdci/[slug]` také, aby nevznikaly duplicity.
 
 ## Cloudflare Access (návrh)
 
@@ -110,7 +173,7 @@ Alternativa bez tokenu: Cron Trigger přímo ve Workeru (vlastní `worker.ts` se
 
 Rizika:
 1. **CPU 10 ms na Free** – neověřeno; stránky jsou z cache, ale každá návštěva spouští Next server (cache interception nezapnuta, se zapnutím vyzkoušet). Plán B Paid 5 USD/měs. Měřit hned po prvním nasazení.
-2. **Prerender s D1** při buildu v CI (viz architektura); nutno rozhodnout vzor před psaním administrace.
+2. **Prerender s D1:** vyřešeno vzorem výše (`getDb()` null při buildu + revalidace po deployi), ale krok „revalidace po nasazení" je povinná součást CI.
 3. **Cache Components** nefunguje; návrat až po opravě v OpenNext. Zadání/CLAUDE.md s ním počítají, shodit v dokumentaci.
 4. **Node middleware experimentální** – řešíme odstraněním proxy.ts.
 5. Zero Trust Free limit uživatelů a nutnost karty u R2/Zero Trust neověřeny z dokumentace.
@@ -121,4 +184,4 @@ Hrubý odhad (člověkodny): nasazení + CI + doména + migrace obsahu na D1 čt
 
 ## Co je v této větvi
 
-`open-next.config.ts`, `wrangler.jsonc`, `env.d.ts`, `migrations/` (0001 spike tabulka, 0002 schéma), `lib/access.ts` + `scripts/test-access.mjs`, `scripts/gen-content.mjs`, úpravy `lib/content.ts`, `lib/episodes.ts`, `next.config.ts`, `package.json`; spike stránky `app/spike-d1/` a `app/api/spike/` (smazat před produkcí; `/api/spike` bez autorizace!).
+`open-next.config.ts`, `wrangler.jsonc`, `env.d.ts`, `migrations/` (0001 obsah, 0002 newsletter, 0003 e-shop), `lib/db.ts`, `lib/access.ts` + `scripts/test-access.mjs`, `scripts/gen-content.mjs`, úpravy `lib/content.ts`, `lib/episodes.ts`, `next.config.ts`, `package.json`; spike stránky `app/spike-d1/` a `app/api/spike/` (vzor D1+revalidace; smazat před produkcí; `/api/spike` je bez autorizace!).
