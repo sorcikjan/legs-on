@@ -10,7 +10,7 @@ npm run build && npm run lint
 
 ## Obsah
 
-- **Díly** – z RSS feedu, když je nastavená proměnná `PODCAST_RSS_URL`; jinak (a při výpadku feedu) z `data/episodes.ts`. Typ dílu se pozná z názvu (`ESPRESSO #93: …` / `#40 LEGS:ON podcast - … | Host`). Kapitoly a přepisy zatím jen v `data/episodes.ts`.
+- **Díly** – z RSS feedu (`PODCAST_RSS_URL`, výchozí je oficiální feed), při výpadku ze zálohy `data/feed.json` (`npm run snapshot`). Typ dílu se pozná z názvu, viz `lib/episodes.ts`. Fotky bez textu, kapitoly a přepisy v `data/episodes.ts`.
 - **Články** – `content/clanky/*.md` (frontmatter + text; `## nadpis`, `> citace` + `> — autor`, `::prehravac`, `::predplatne`).
 - **Hosté** – `content/hoste/*.md`.
 - **Odkazy, kontakty, cena** – `lib/site.ts` (placeholdery k doplnění od tvůrců).

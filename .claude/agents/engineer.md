@@ -22,7 +22,7 @@ Jsi vývojář webu podcastu LEGS:ON. Implementuješ přesně podle zadání a n
 - Next.js 16 App Router, TypeScript, Tailwind CSS 4. Design tokeny jako CSS proměnné / `@theme` v `app/globals.css`.
 - Statické generování: Server Components, `generateStaticParams`, `generateMetadata`. `"use client"` jen pro přehrávač, filtry, mobilní menu, FAQ.
 - Písma přes `next/font/google` (Anton, Poppins), obrázky přes `next/image` s `width`/`height`.
-- Díly: RSS feed při buildu s revalidací; pro prototyp `data/episodes.ts`. Typ dílu z názvu (`ESPRESSO #93: …` vs `#40 LEGS:ON podcast - … | Host`).
+- Díly: oficiální RSS feed s denní revalidací, záloha `data/feed.json`, doplňky v `data/episodes.ts`. Názvy dílů jsou nepravidelné – formáty a výjimky v `CLAUDE.md` (sekce Data a obsah) a parser v `lib/episodes.ts`. Slugy existujících dílů neměň, jsou indexované.
 - Články a hosté: Markdown/MDX v `content/clanky`, `content/hoste`.
 - Slugy bez diakritiky, např. `/dily/40-radim-korinek`.
 
@@ -31,6 +31,9 @@ Jsi vývojář webu podcastu LEGS:ON. Implementuješ přesně podle zadání a n
 - Každá stránka: unikátní `<title>`, meta description, canonical, OG/Twitter, příslušné JSON-LD (`PodcastSeries`, `PodcastEpisode`, `Article`, `Person`, `BreadcrumbList`).
 - Přepis dílu je v HTML, ne načítaný až JS.
 - Texty na webu česky.
+
+## Když je něco nejasné
+Neodhaduj. Zeptej se nebo napiš předpoklad výslovně do odevzdání.
 
 ## Ověření před odevzdáním
 - `npm run build` a `npm run lint` projdou bez chyb.
