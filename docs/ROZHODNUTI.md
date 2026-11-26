@@ -4,6 +4,8 @@ Nejnovější nahoře. Kdo = kdo rozhodl nebo schválil (Jan / tvůrci / společ
 
 | Datum | Rozhodnutí | Proč | Kdo |
 |---|---|---|---|
+| 2026-11-26 | Hosting: Cloudflare (varianta doporučená v kalkulaci). Prototyp na Netlify se zavírá za heslo. | Tvůrcům byla prezentována doporučená varianta; prototyp splnil účel. | Jan |
+| 2026-11-26 | Komunikace s tvůrci jde přes stavový dokument „LEGS:ON web – kde jsme teď“ (Claude Doc), odpovědi přes Messenger nebo na callu. | Jedno místo se stavem, otázkami a rozhodnutími. | Jan |
 | 2026-11-26 | Web spouští Jan najednou v den D: do té doby skrytý pro roboty i veřejnost, indexace Googlem až od dne D. | Maximální marketingový efekt spuštění, nic nesmí prosáknout předem. | Jan |
 | 2026-11-26 | Web spravuje a provozuje Jan. Projekt běží samostatně, odděleně od ostatních Janových projektů. | Jednodušší provoz bez předávky. | Jan |
 | 2026-11-26 | Rozpočet drží kalkulace „LEGS:ON web – roční kalkulace nákladů“ (cca 4 100 Kč/rok). Všechny platby jdou z karty, kterou tvůrci vydají jen pro tento účel. | Malý projekt, odhad slíbený tvůrcům se nesmí výrazně minout. | Jan + tvůrci |
