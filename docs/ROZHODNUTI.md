@@ -4,6 +4,7 @@ Nejnovější nahoře. Kdo = kdo rozhodl nebo schválil (Jan / tvůrci / společ
 
 | Datum | Rozhodnutí | Proč | Kdo |
 |---|---|---|---|
+| 2026-11-26 | E-shop bude vlastní a jednoduchý, přímo na webu: produkty v administraci, platba QR kódem převodem, bez platební brány. Shoptet ne. Produkty a objednávky se zahrnou do datového modelu hned, staví se po Vánocích. | Jednotky produktů a desítky objednávek ročně: Shoptet by stál víc než zbytek webu (řádově stovky Kč měsíčně) a vypadal by jinak. Na Shoptet se dá přejít, kdyby objem výrazně vzrostl. | Jan |
 | 2026-11-26 | Obsah administrace (díly, články a jejich stavy) bude v databázi Cloudflare D1, přihlášení přes Cloudflare Access. Hosté zatím zůstávají jako soubory v repu. Před stavbou ověří Engineering Lead pokusem, že to funguje s Next.js 16. | Standardní redakční chování (změna je vidět hned po kliknutí), růst ke zpravodajskému webu, bez nákladů navíc oproti kalkulaci. | Jan |
 | 2026-11-26 | Hosting: Cloudflare (varianta doporučená v kalkulaci). Prototyp na Netlify je smazaný (heslo a noindex v kódu zůstávají pro novou verzi do dne D). | Tvůrcům byla prezentována doporučená varianta; prototyp splnil účel. | Jan |
 | 2026-11-26 | Komunikace s tvůrci jde přes stavový dokument „LEGS:ON web – kde jsme teď“ (Claude Doc), odpovědi přes Messenger nebo na callu. | Jedno místo se stavem, otázkami a rozhodnutími. | Jan |

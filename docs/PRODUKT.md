@@ -35,7 +35,7 @@ Google / Discover → článek → přehrát díl → `/predplatne` → Herohero
 ## Dlouhodobá vize (rok)
 Web roste od domova podcastu k **českému a slovenskému cyklistickému zpravodajskému webu** postavenému na obsahu, který kluci už vytvářejí. Konkurence v CZ/SK je malá. Fázuje se tak, aby provoz zvládli při svém čase:
 1. **Vánoční release (den D):** domov podcastu, články, newsletter, administrace.
-2. **Fáze 1, navazující:** e-shop s merchem.
+2. **Fáze 1, navazující:** e-shop s merchem. Je vlastní a jednoduchý: produkty v administraci, platba QR kódem, bez platební brány.
 3. **Další fáze:** pravidelné články navázané na páteční Espresso (víc článků týdně, rozpracování témat, výsledky, glosy), partnerský program s daty, eventy pro komunitu a předplatitele (live rozhovory, vyjížďky, konference; zatím nekonkrétní), případně placená propagace článků.
 
 Tempo psaní určí čas tvůrců, ne technika.
@@ -56,7 +56,7 @@ Patří do něj:
 - **Administrace (redakční systém):** po nahrání dílu na platformy si web díl načte, analyzuje a připraví díl i článek ke schválení. Musí být postavená tak, aby se dala rozšiřovat (víc článků, e-shop, eventy).
 - Skrytý web do dne D (noindex + ochrana před veřejností), pak spuštění najednou.
 
-**Mimo vánoční release:** e-shop (fáze 1; produktově ho ale načrtneme už teď, aby bylo vidět, kam zapadne), eventy, zpravodajský provoz s více články týdně, partnerský program s daty, reklama.
+**Mimo vánoční release:** e-shop (fáze 1; produkty a objednávky jsou ale v datovém modelu od začátku), eventy, zpravodajský provoz s více články týdně, partnerský program s daty, reklama.
 
 ## K probrání
 - **Vizuál, nebo text?** Podcastová část (díly, hosté, homepage) staví na vizuálu a Antonu. Článková část je text a je hlavním zdrojem návštěv z vyhledávání. Kde přesně vede hranice, třeba u statistik pro partnery?

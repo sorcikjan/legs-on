@@ -16,6 +16,8 @@ Po zodpovězení přesunout odpověď do `ROZHODNUTI.md` a otázku smazat.
 - [ ] **Fotky:** odkud se smějí brát fotky k článkům (vlastní, od hostů, z agentur)? Licence agenturních fotek stojí peníze, které nejsou v kalkulaci.
 - [ ] **Provozovatel webu:** kdo je uveden jako provozovatel (kvůli GDPR, newsletteru a později e-shopu): Jan, tvůrci, nebo firma?
 
+- [ ] **E-shop – prodávající:** kdo prodává merch (živnost, IČO)? Jste plátci DPH? Účet u Fio (automatické párování QR plateb)?
+
 ## Partneři a kontakty
 - [ ] Statistiky (poslechy, dosah, completion rate), ceník spoluprací, loga partnerů.
 - [ ] Telefon, Facebook (existuje?), je ciao@legson.cz správný kontakt pro web?
