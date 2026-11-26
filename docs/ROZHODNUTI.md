@@ -4,6 +4,7 @@ Nejnovější nahoře. Kdo = kdo rozhodl nebo schválil (Jan / tvůrci / společ
 
 | Datum | Rozhodnutí | Proč | Kdo |
 |---|---|---|---|
+| 2026-11-26 | Obsah administrace (díly, články a jejich stavy) bude v databázi Cloudflare D1, přihlášení přes Cloudflare Access. Hosté zatím zůstávají jako soubory v repu. Před stavbou ověří Engineering Lead pokusem, že to funguje s Next.js 16. | Standardní redakční chování (změna je vidět hned po kliknutí), růst ke zpravodajskému webu, bez nákladů navíc oproti kalkulaci. | Jan |
 | 2026-11-26 | Hosting: Cloudflare (varianta doporučená v kalkulaci). Prototyp na Netlify je smazaný (heslo a noindex v kódu zůstávají pro novou verzi do dne D). | Tvůrcům byla prezentována doporučená varianta; prototyp splnil účel. | Jan |
 | 2026-11-26 | Komunikace s tvůrci jde přes stavový dokument „LEGS:ON web – kde jsme teď“ (Claude Doc), odpovědi přes Messenger nebo na callu. | Jedno místo se stavem, otázkami a rozhodnutími. | Jan |
 | 2026-11-26 | Web spouští Jan najednou v den D: do té doby skrytý pro roboty i veřejnost, indexace Googlem až od dne D. | Maximální marketingový efekt spuštění, nic nesmí prosáknout předem. | Jan |
