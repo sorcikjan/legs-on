@@ -1,5 +1,4 @@
-import fs from "node:fs/promises";
-import path from "node:path";
+import generated from "@/data/content.generated.json";
 import { slugify } from "@/lib/format";
 
 /**
@@ -59,16 +58,12 @@ export function parseBody(body: string): Block[] {
     });
 }
 
-async function readDir(dir: string) {
-  "use cache";
-  const full = path.join(process.cwd(), "content", dir);
-  const files = (await fs.readdir(full)).filter((f) => f.endsWith(".md"));
-  return Promise.all(
-    files.map(async (file) => ({
-      slug: file.replace(/\.md$/, ""),
-      ...parseFile(await fs.readFile(path.join(full, file), "utf8")),
-    })),
-  );
+async function readDir(dir: "clanky" | "hoste") {
+  const files = generated[dir] as Record<string, string>;
+  return Object.entries(files).map(([file, source]) => ({
+    slug: file.replace(/\.md$/, ""),
+    ...parseFile(source),
+  }));
 }
 
 const str = (v: string | string[] | undefined) => (Array.isArray(v) ? v.join(", ") : (v ?? ""));

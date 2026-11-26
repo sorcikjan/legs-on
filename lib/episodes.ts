@@ -1,4 +1,3 @@
-import { cacheLife } from "next/cache";
 import { episodeExtras } from "@/data/episodes";
 import feedSnapshot from "@/data/feed.json";
 import { slugify } from "@/lib/format";
@@ -106,13 +105,11 @@ export function normalizeEpisode(input: EpisodeInput): Episode {
 }
 
 async function loadFeed(): Promise<EpisodeInput[]> {
-  "use cache";
-  // Díly vychází jednou až dvakrát týdně, denní obnova stačí.
-  cacheLife("days");
+  // Díly vychází jednou až dvakrát týdně, denní obnova stačí (fetch revalidate 1 den).
   let inputs: EpisodeInput[] = feedSnapshot;
   if (PODCAST_RSS_URL) {
     try {
-      const res = await fetch(PODCAST_RSS_URL);
+      const res = await fetch(PODCAST_RSS_URL, { next: { revalidate: 86400, tags: ["rss"] } });
       if (!res.ok) throw new Error(`RSS ${res.status}`);
       const parsed = parseRss(await res.text());
       if (parsed.length === 0) throw new Error("RSS bez dílů");
