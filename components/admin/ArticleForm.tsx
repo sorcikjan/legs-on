@@ -2,10 +2,12 @@
 
 import { useActionState } from "react";
 import { saveArticle, type FormState } from "@/app/admin/clanky/actions";
+import { MediaDatalist } from "@/components/admin/MediaDatalist";
 import { Field, input, Notice } from "@/components/admin/ui";
 import type { AdminArticle } from "@/lib/admin/articles";
 
 type Options = {
+  media: { url: string; label: string }[];
   topics: { id: number; name: string }[];
   episodes: { guid: string; series: string; num: number | null; title: string; day: string }[];
   people: { id: number; name: string; published: number }[];
@@ -140,8 +142,9 @@ export function ArticleForm({ article, options, publishedAtLocal }: { article: A
             ))}
           </select>
         </Field>
-        <Field label="Fotka (adresa)" hint="Zatím cesta k souboru, např. /images/korinek.jpg. Knihovna fotek přijde.">
-          <input name="image_url" defaultValue={a?.image_url ?? ""} className={input} />
+        <Field label="Fotka" hint="Začni psát a vyber z knihovny fotek (nebo cesta k souboru /images/…).">
+          <input name="image_url" list="media-list" defaultValue={a?.image_url ?? ""} className={input} />
+          <MediaDatalist media={options.media} />
         </Field>
         <Field label="Popis fotky (alt)">
           <input name="image_alt" defaultValue={a?.image_alt ?? ""} className={input} />

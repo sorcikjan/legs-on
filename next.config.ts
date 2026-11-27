@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
     // Obálky dílů z RSS feedu
     remotePatterns: [{ protocol: "https", hostname: "d3t3ozftmdmh3i.cloudfront.net" }],
   },
+  experimental: {
+    // Nahrávání fotek v administraci (Server Action); větší originály admin odmítne sám.
+    serverActions: { bodySizeLimit: "16mb" },
+  },
   turbopack: {
     rules: {
       "*.css": {

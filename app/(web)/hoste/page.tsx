@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { SiteImage } from "@/components/SiteImage";
 import Link from "next/link";
 import { SectionLabel } from "@/components/bits";
 import { CtaBand } from "@/components/CtaBand";
@@ -32,7 +32,7 @@ export default async function GuestsPage() {
         <Link key={g.slug} href={`/hoste/${g.slug}`} className="group flex flex-col gap-2 no-underline md:gap-3">
           <div className="aspect-[4/5] w-full bg-ink">
             {g.photo ? (
-              <Image
+              <SiteImage
                 src={g.photo}
                 alt={g.name}
                 width={406}

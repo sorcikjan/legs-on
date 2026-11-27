@@ -19,7 +19,7 @@ Každý krok končí nasazením na testovací adresu a ověřením. Pořadí je 
 - **Hotovo když:** web na testovací adrese vypadá stejně jako dnes, ale data jdou z D1; test slugů zelený.
 
 ### 2. Administrace (2. – 8. 12.)
-**Stav 27. 11.:** hotové články (seznam, úprava, koncept / zveřejnit / naplánovat / stáhnout / smazat, revize, audit, přesměrování při změně adresy), přihlášení heslem na testovacím prostředí, díly (hosté, kapitoly, fotka, skrytí), hosté (profil, zveřejnění, změna adresy s přesměrováním), SEO pole a noindex propsané na web. Zbývá: fotky.
+**Stav 27. 11.:** hotové články (seznam, úprava, koncept / zveřejnit / naplánovat / stáhnout / smazat, revize, audit, přesměrování při změně adresy), přihlášení heslem na testovacím prostředí, díly (hosté, kapitoly, fotka, skrytí), hosté (profil, zveřejnění, změna adresy s přesměrováním), SEO pole a noindex propsané na web, knihovna fotek (R2 `legson-media`, licence, bod zájmu, výřezy přes Images, našeptávač v polích fotek). Zbývá jen Cloudflare Access na produkční doméně.
 
 - Přihlášení: na testovacím prostředí heslo (`ADMIN_PASSWORD`), na produkční doméně Cloudflare Access s e-mailovým kódem (kroky 6–9 ve spiku). Celý web zůstává bez přihlášení.
 - `/admin` má čtyři sekce: **Díly, Články, Hosté, Fotky**. Úvod: co čeká na schválení.

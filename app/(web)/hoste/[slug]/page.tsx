@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { SiteImage } from "@/components/SiteImage";
 import Link from "next/link";
 import { ArticleCard, withSource } from "@/components/ArticleCard";
 import { Breadcrumbs, GuestNames, SectionLabel } from "@/components/bits";
@@ -76,7 +76,7 @@ export default async function GuestPage({ params }: PageProps<"/hoste/[slug]">) 
           </div>
           <div className="relative min-h-[360px] min-w-0 flex-[1_1_380px] bg-ink md:min-h-[520px]">
             {guest.photo ? (
-              <Image
+              <SiteImage
                 src={guest.photo}
                 alt={guest.name}
                 fill

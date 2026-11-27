@@ -6,6 +6,7 @@ interface CloudflareEnv {
   DB: D1Database;
   NEXT_TAG_CACHE_D1: D1Database;
   NEXT_INC_CACHE_R2_BUCKET: R2Bucket;
+  MEDIA: R2Bucket;
   WORKER_SELF_REFERENCE: Fetcher;
   IMAGES: ImagesBinding;
   SITE_PASSWORD?: string;

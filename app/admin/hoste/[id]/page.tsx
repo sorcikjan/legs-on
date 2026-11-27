@@ -2,7 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ActionForm, ConfirmButton } from "@/components/admin/ActionForm";
 import { Field, input, Notice, PageTitle, StatusBadge } from "@/components/admin/ui";
+import { MediaDatalist } from "@/components/admin/MediaDatalist";
 import { seriesLabel } from "@/lib/admin/episodes";
+import { mediaOptions } from "@/lib/admin/media";
 import { getAdminPerson } from "@/lib/admin/people";
 import { savePerson } from "../actions";
 
@@ -19,7 +21,7 @@ export default async function AdminGuest({ params, searchParams }: PageProps<"/a
   const { id } = await params;
   const ok = String((await searchParams).ok ?? "");
   const isNew = id === "novy";
-  const p = isNew ? null : await getAdminPerson(Number(id));
+  const [p, media] = await Promise.all([isNew ? null : getAdminPerson(Number(id)), mediaOptions()]);
   if (!isNew && !p) notFound();
   const live = !!p?.published_at;
   const sameAs: string[] = p?.same_as_json ? JSON.parse(p.same_as_json) : [];
@@ -115,8 +117,9 @@ export default async function AdminGuest({ params, searchParams }: PageProps<"/a
               <input type="checkbox" name="confirm_slug" /> Změnit adresu (stará bude přesměrovaná)
             </label>
           )}
-          <Field label="Fotka (adresa)" hint="Zatím cesta k souboru, např. /images/stastny.jpg. Knihovna fotek přijde.">
-            <input name="photo_url" defaultValue={p?.photo_url ?? ""} className={input} />
+          <Field label="Fotka" hint="Začni psát a vyber z knihovny fotek (nebo cesta k souboru /images/…).">
+            <input name="photo_url" list="media-list" defaultValue={p?.photo_url ?? ""} className={input} />
+            <MediaDatalist media={media} />
           </Field>
           {p?.photo_url && (
             // eslint-disable-next-line @next/next/no-img-element

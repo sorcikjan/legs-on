@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { SiteImage } from "@/components/SiteImage";
 import Link from "next/link";
 import { ArticleGrid, FeaturedArticles, TopicPills, withSource } from "@/components/ArticleCard";
 import { GuestNames, SectionLabel } from "@/components/bits";
@@ -41,7 +41,7 @@ function Spotlight({ latest, interview }: { latest: Episode; interview?: Episode
         className="on-dark relative flex min-h-[360px] min-w-0 flex-[999_1_640px] flex-col justify-end overflow-hidden bg-ink p-5 text-bg no-underline md:min-h-[480px] md:justify-between md:p-8"
       >
         {(latest.image ?? latest.cover) && (
-          <Image
+          <SiteImage
             src={(latest.image ?? latest.cover)!}
             alt=""
             fill
@@ -81,7 +81,7 @@ function Spotlight({ latest, interview }: { latest: Episode; interview?: Episode
           className="flex min-w-0 flex-[1_1_360px] flex-row bg-accent text-ink no-underline md:flex-col"
         >
           {(interview.image ?? interview.cover) && (
-            <Image
+            <SiteImage
               src={(interview.image ?? interview.cover)!}
               alt={interview.guest ?? ""}
               width={406}

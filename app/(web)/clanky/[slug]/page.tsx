@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { SiteImage } from "@/components/SiteImage";
 import Link from "next/link";
 import { ArticleCard, withSource } from "@/components/ArticleCard";
 import { Breadcrumbs } from "@/components/bits";
@@ -159,7 +159,7 @@ export default async function ArticlePage({ params }: PageProps<"/clanky/[slug]"
 
           {article.image && (
             <div className="mx-auto max-w-[1120px] md:px-8">
-              <Image
+              <SiteImage
                 src={article.image}
                 alt={article.imageAlt}
                 width={1200}
@@ -177,7 +177,7 @@ export default async function ArticlePage({ params }: PageProps<"/clanky/[slug]"
             {episode && (
               <div className="mt-14 flex flex-wrap items-center gap-6 border-t border-line pt-8">
                 {guest?.photo && (
-                  <Image src={guest.photo} alt="" width={192} height={224} className="block h-28 w-24 flex-none object-cover object-top" />
+                  <SiteImage src={guest.photo} alt="" width={192} height={224} className="block h-28 w-24 flex-none object-cover object-top" />
                 )}
                 <div className="min-w-0 flex-[1_1_300px] leading-normal">
                   <p className="m-0 text-[13px] text-muted">Celý {episode.series === "Rozhovor" ? "rozhovor" : "díl"}</p>

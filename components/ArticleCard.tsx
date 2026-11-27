@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { SiteImage } from "@/components/SiteImage";
 import Link from "next/link";
 import { articleSource, topicSlug, type Article, type Guest } from "@/lib/content";
 
@@ -64,7 +64,7 @@ export function FeaturedArticles({
     <div className="flex flex-wrap gap-12">
       <Link href={`/clanky/${main.slug}`} className="group flex min-w-0 flex-[999_1_600px] flex-col gap-3.5 no-underline">
         {main.image && (
-          <Image
+          <SiteImage
             src={main.image}
             alt={main.imageAlt}
             width={1200}
@@ -84,7 +84,7 @@ export function FeaturedArticles({
       {side && (
         <Link href={`/clanky/${side.slug}`} className="group flex min-w-0 flex-[1_1_340px] flex-col gap-3.5 no-underline">
           {side.image && (
-            <Image
+            <SiteImage
               src={side.image}
               alt={side.imageAlt}
               width={632}

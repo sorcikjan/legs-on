@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { ActionForm } from "@/components/admin/ActionForm";
 import { Field, input, Notice, PageTitle, StatusBadge } from "@/components/admin/ui";
 import { chaptersToText } from "@/lib/admin/chapters";
+import { MediaDatalist } from "@/components/admin/MediaDatalist";
 import { getAdminEpisode, guestOptions, seriesLabel } from "@/lib/admin/episodes";
+import { mediaOptions } from "@/lib/admin/media";
 import { pragueDateTime } from "@/lib/time";
 import { saveEpisode } from "../actions";
 
@@ -13,7 +15,7 @@ const OK: Record<string, string> = { save: "Uloženo.", hide: "Díl je skrytý z
 export default async function AdminEpisode({ params, searchParams }: PageProps<"/admin/dily/[guid]">) {
   const guid = decodeURIComponent((await params).guid);
   const ok = String((await searchParams).ok ?? "");
-  const [e, people] = await Promise.all([getAdminEpisode(guid), guestOptions()]);
+  const [e, people, media] = await Promise.all([getAdminEpisode(guid), guestOptions(), mediaOptions()]);
   if (!e) notFound();
   const live = e.status === "published";
 
@@ -56,8 +58,9 @@ export default async function AdminEpisode({ params, searchParams }: PageProps<"
               ))}
             </select>
           </Field>
-          <Field label="Fotka bez textu (adresa)" hint="Zatím cesta k souboru, např. /images/korinek.jpg. Knihovna fotek přijde.">
-            <input name="image_url" defaultValue={e.image_url ?? ""} className={input} />
+          <Field label="Fotka bez textu" hint="Začni psát a vyber z knihovny fotek (nebo cesta k souboru /images/…).">
+            <input name="image_url" list="media-list" defaultValue={e.image_url ?? ""} className={input} />
+            <MediaDatalist media={media} />
           </Field>
           {(e.image_url || e.cover_url) && (
             <Image src={e.image_url || e.cover_url!} alt="" width={320} height={320} className="h-auto w-full border border-line" />

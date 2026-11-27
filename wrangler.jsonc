@@ -8,7 +8,10 @@
   "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "legs-on" }],
   "observability": { "enabled": true },
   "images": { "binding": "IMAGES" },
-  "r2_buckets": [{ "binding": "NEXT_INC_CACHE_R2_BUCKET", "bucket_name": "legson-next-cache" }],
+  "r2_buckets": [
+    { "binding": "NEXT_INC_CACHE_R2_BUCKET", "bucket_name": "legson-next-cache" },
+    { "binding": "MEDIA", "bucket_name": "legson-media" }
+  ],
   "d1_databases": [
     { "binding": "DB", "database_name": "legson", "database_id": "f0f8f5b9-7ed9-42db-80f4-4a2b071f5f96", "migrations_dir": "migrations" },
     { "binding": "NEXT_TAG_CACHE_D1", "database_name": "legson", "database_id": "f0f8f5b9-7ed9-42db-80f4-4a2b071f5f96" }

@@ -1,4 +1,5 @@
 import { adminDb } from "@/lib/admin/db";
+import { mediaOptions } from "@/lib/admin/media";
 
 export type ArticleStatus = "draft" | "published" | "withdrawn";
 
@@ -84,6 +85,7 @@ export async function articleFormOptions() {
     db.prepare("SELECT id, name, published_at IS NOT NULL AS published FROM people WHERE is_guest = 1 AND deleted_at IS NULL ORDER BY name"),
   ]);
   return {
+    media: await mediaOptions(),
     topics: topics.results as { id: number; name: string }[],
     episodes: episodes.results as { guid: string; series: string; num: number | null; title: string; day: string }[],
     people: people.results as { id: number; name: string; published: number }[],

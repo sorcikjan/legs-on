@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { SiteImage } from "@/components/SiteImage";
 import Link from "next/link";
 import { ArticleCard, withSource } from "@/components/ArticleCard";
 import { Breadcrumbs } from "@/components/bits";
@@ -117,7 +117,7 @@ export default async function EpisodePage({ params }: PageProps<"/dily/[slug]">)
 
           <div className="on-dark flex min-w-0 flex-[999_1_560px] flex-col gap-7 bg-ink px-4 py-8 text-bg md:p-10">
             {episode.image ? (
-              <Image
+              <SiteImage
                 src={episode.image}
                 alt={episode.guest ?? ""}
                 width={760}
@@ -130,7 +130,7 @@ export default async function EpisodePage({ params }: PageProps<"/dily/[slug]">)
               />
             ) : (
               episode.cover && (
-                <Image
+                <SiteImage
                   src={episode.cover}
                   alt=""
                   width={760}
@@ -215,7 +215,7 @@ export default async function EpisodePage({ params }: PageProps<"/dily/[slug]">)
           {guest && (
             <Link href={`/hoste/${guest.slug}`} className="flex items-center gap-5 bg-bg-light p-6 no-underline">
               {guest.photo && (
-                <Image src={guest.photo} alt="" width={176} height={208} className="block h-[104px] w-[88px] flex-none object-cover object-top" />
+                <SiteImage src={guest.photo} alt="" width={176} height={208} className="block h-[104px] w-[88px] flex-none object-cover object-top" />
               )}
               <div>
                 <p className="eyebrow m-0 text-xs text-muted">Host</p>
