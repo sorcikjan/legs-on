@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { SOCIALS } from "@/lib/site";
+import { BrandIcon } from "@/components/BrandIcon";
+import { SOCIAL_LINKS } from "@/lib/site";
 
 export function Footer() {
   return (
@@ -8,10 +9,12 @@ export function Footer() {
         <Link href="/" className="display text-[26px] normal-case tracking-[0.5px] text-bg no-underline md:text-[28px]">
           LEGS:ON
         </Link>
-        <span className="flex flex-wrap gap-x-6 gap-y-2">
-          <a href={SOCIALS.instagram} className="py-2">Instagram</a>
-          <a href={SOCIALS.facebook} className="py-2">Facebook</a>
-          <a href={SOCIALS.youtube} className="py-2">YouTube</a>
+        <span className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          {SOCIAL_LINKS.map((s) => (
+            <a key={s.brand} href={s.href} aria-label={s.label} title={s.label} className="-m-2 p-2 text-on-dark-muted transition-colors hover:text-accent">
+              <BrandIcon brand={s.brand} size={22} />
+            </a>
+          ))}
           <Link href="/pro-partnery" className="py-2">Pro partnery</Link>
         </span>
       </div>

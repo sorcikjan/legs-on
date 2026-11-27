@@ -14,6 +14,7 @@ import { getArticles, getGuest, getGuests } from "@/lib/content";
 import { episodeRef, episodeTag, getEpisode, getEpisodes, playable, type Series } from "@/lib/episodes";
 import { longDate } from "@/lib/format";
 import { podcastEpisodeLd } from "@/lib/jsonld";
+import { BrandIcon } from "@/components/BrandIcon";
 import { PLATFORMS } from "@/lib/site";
 
 const SERIES_NAMES: Record<Series, string> = {
@@ -160,9 +161,17 @@ export default async function EpisodePage({ params }: PageProps<"/dily/[slug]">)
             <EpisodePlayer episode={playable(episode)} />
             <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium uppercase tracking-[1px]">
               <span className="py-2 text-on-dark-subtle">Poslechni i na</span>
-              <a href={PLATFORMS.spotify} className="py-2 text-bg">Spotify</a>
-              <a href={PLATFORMS.apple} className="py-2 text-bg">Apple</a>
-              <a href={PLATFORMS.youtube} className="py-2 text-bg">YouTube</a>
+              {(
+                [
+                  ["spotify", "Spotify", PLATFORMS.spotify],
+                  ["apple", "Apple", PLATFORMS.apple],
+                  ["youtube", "YouTube", PLATFORMS.youtube],
+                ] as const
+              ).map(([brand, label, href]) => (
+                <a key={brand} href={href} className="flex items-center gap-2 py-2 text-bg no-underline hover:text-accent">
+                  <BrandIcon brand={brand} size={18} /> {label}
+                </a>
+              ))}
             </div>
           </div>
         </div>

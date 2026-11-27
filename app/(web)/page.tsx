@@ -11,6 +11,7 @@ import { getArticles, getGuests } from "@/lib/content";
 import { getEpisodes, type Episode } from "@/lib/episodes";
 import { shortDate } from "@/lib/format";
 import { podcastSeriesLd } from "@/lib/jsonld";
+import { BrandIcon, type Brand } from "@/components/BrandIcon";
 import { PLATFORMS, PRICE, STATS } from "@/lib/site";
 
 /** Záchranná síť, kdyby revalidace po nasazení nebo po úpravě selhala (docs/tech/SPIKE-CLOUDFLARE.md). */
@@ -122,10 +123,10 @@ export default async function HomePage() {
   const picked = all.filter((a) => a.featured > 0).sort((a, b) => a.featured - b.featured);
   const [leadArticle, ...sideArticles] = [...picked, ...all.filter((a) => !picked.includes(a))].slice(0, 3);
 
-  const listen = [
-    { label: "Spotify", short: "Spotify", href: PLATFORMS.spotify },
-    { label: "Apple Podcasts", short: "Apple", href: PLATFORMS.apple },
-    { label: "YouTube", short: "YouTube", href: PLATFORMS.youtube },
+  const listen: { brand: Brand; label: string; short: string; href: string }[] = [
+    { brand: "spotify", label: "Spotify", short: "Spotify", href: PLATFORMS.spotify },
+    { brand: "apple", label: "Apple Podcasts", short: "Apple", href: PLATFORMS.apple },
+    { brand: "youtube", label: "YouTube", short: "YouTube", href: PLATFORMS.youtube },
   ];
 
   return (
@@ -158,18 +159,26 @@ export default async function HomePage() {
                 <a
                   key={p.label}
                   href={p.href}
-                  className="display flex justify-between border border-dark-line px-3 py-3.5 text-[22px] leading-none text-bg no-underline md:border-0 md:border-t md:px-0 md:text-[34px]"
+                  className="display group flex items-center justify-between gap-3 border border-dark-line px-3 py-3.5 text-[22px] leading-none text-bg no-underline md:border-0 md:border-t md:px-0 md:text-[26px] xl:text-[30px]"
                 >
-                  <span className="md:hidden">{p.short}</span>
-                  <span className="hidden md:inline">{p.label}</span>
+                  <span className="flex items-center gap-2.5 md:gap-4">
+                    <BrandIcon brand={p.brand} className="size-5 shrink-0 text-on-dark-muted transition-colors group-hover:text-accent md:size-7" />
+                    <span className="md:hidden">{p.short}</span>
+                    <span className="hidden whitespace-nowrap md:inline">{p.label}</span>
+                  </span>
                   <span aria-hidden="true" className="hidden md:inline">→</span>
                 </a>
               ))}
               <SubscribeLink
                 placement="home-listen"
-                className="display flex justify-between border border-dark-line px-3 py-3.5 text-[22px] leading-none text-accent no-underline md:border-0 md:border-t md:px-0 md:text-[34px]"
+                className="display flex items-center justify-between gap-3 border border-dark-line px-3 py-3.5 text-[22px] leading-none text-accent no-underline md:border-0 md:border-t md:px-0 md:text-[26px] xl:text-[30px]"
               >
-                Herohero <span aria-hidden="true" className="hidden md:inline">→</span>
+                {/* Logo Herohero zatím nemáme: odsazení drží text v ose s ostatními. */}
+                <span className="flex items-center gap-2.5 md:gap-4">
+                  <span aria-hidden="true" className="size-5 shrink-0 md:size-7" />
+                  Herohero
+                </span>
+                <span aria-hidden="true" className="hidden md:inline">→</span>
               </SubscribeLink>
             </div>
           </div>

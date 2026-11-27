@@ -5,7 +5,8 @@ import { PersonPlaceholder } from "@/components/icons";
 import { JsonLd } from "@/components/JsonLd";
 import { getEpisodes } from "@/lib/episodes";
 import { aboutLd } from "@/lib/jsonld";
-import { CONTACT_EMAIL, STATS } from "@/lib/site";
+import { BrandIcon } from "@/components/BrandIcon";
+import { CONTACT_EMAIL, STATS, SOCIAL_LINKS } from "@/lib/site";
 
 /** Záchranná síť, kdyby revalidace po nasazení nebo po úpravě selhala (docs/tech/SPIKE-CLOUDFLARE.md). */
 export const revalidate = 900;
@@ -97,6 +98,13 @@ export default async function AboutPage() {
           <div className="min-w-0 flex-[1_1_520px]">
             <h2 className="display m-0 text-5xl leading-[0.95] md:text-[56px]">Napiš nám</h2>
             <p className="m-0 mt-3 text-lg">Tip na hosta, zpětná vazba nebo spolupráce. {CONTACT_EMAIL}</p>
+            <p className="m-0 mt-5 flex items-center gap-5">
+              {SOCIAL_LINKS.map((s) => (
+                <a key={s.brand} href={s.href} aria-label={s.label} title={s.label} className="-m-1.5 p-1.5 text-ink transition-colors hover:text-accent">
+                  <BrandIcon brand={s.brand} size={26} />
+                </a>
+              ))}
+            </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <a href={mail} className="btn btn-dark">

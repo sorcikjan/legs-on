@@ -23,6 +23,15 @@ export const SOCIALS = {
   youtube: "https://www.youtube.com/@legs_on",
 } as const;
 
+/** Sociální sítě s vyplněnou adresou ("#" = tvůrci ještě nedodali, nezobrazuje se). */
+export const SOCIAL_LINKS = (
+  [
+    { brand: "instagram", label: "Instagram", href: SOCIALS.instagram },
+    { brand: "facebook", label: "Facebook", href: SOCIALS.facebook },
+    { brand: "youtube", label: "YouTube", href: SOCIALS.youtube },
+  ] as const
+).filter((s) => s.href !== "#");
+
 export const CONTACT_EMAIL = "ciao@legson.cz";
 export const CONTACT_PHONE = "[telefon]";
 
