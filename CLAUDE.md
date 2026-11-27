@@ -23,4 +23,4 @@
 ## Nasazení
 - Push na `main` = build a deploy přes Cloudflare Workers Builds (worker `legs-on`, dočasně Janův účet). Pushuj v dávkách.
 - Workers Builds: build command `npx opennextjs-cloudflare build` (ne `npm run build`), deploy `npx wrangler deploy`.
-- Web do dne D: https://legs-on.sorcikjan.workers.dev, zamčený heslem (`SITE_PASSWORD`, secret workeru; nastavovat v dashboardu, `wrangler secret put` přes `!` uloží prázdnou hodnotu) + noindex.
+- Testovací prostředí: https://legs-on.sorcikjan.workers.dev, bez hesla, noindex (dokud `SITE_PUBLIC` není `true`). Volitelné heslo: secret `SITE_PASSWORD` (nastavovat v dashboardu, `wrangler secret put` přes `!` uloží prázdnou hodnotu).

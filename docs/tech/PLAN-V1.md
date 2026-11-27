@@ -2,7 +2,7 @@
 
 Stav 27. 11. 2026. Den D navržen na pátek **18. 12.**, uzávěrka textů 16. 12. Technické podklady: `SPIKE-CLOUDFLARE.md` (datový model, vzor stránek nad D1, Access, URL mapa).
 
-**Hotovo:** web běží na Cloudflare (dočasně Janův účet, `legs-on.sorcikjan.workers.dev`, heslo + noindex), D1 s migracemi 0001–0002, nasazení pushem na `main`.
+**Hotovo:** web běží na Cloudflare (testovací prostředí na Janově účtu, `legs-on.sorcikjan.workers.dev`, bez hesla, noindex), D1 s migracemi 0001–0002, nasazení pushem na `main`.
 
 ## Pořadí a termíny
 
@@ -17,7 +17,7 @@ Každý krok končí nasazením na testovací adresu a ověřením. Pořadí je 
 - **Hotovo když:** web na testovací adrese vypadá stejně jako dnes, ale data jdou z D1; test slugů zelený.
 
 ### 2. Administrace (2. – 8. 12.)
-- Cloudflare Access na Janově účtu (kroky 6–9 ve spiku): `/admin*`, přihlášení e-mailovým kódem pro Jana, Petra, Honzu. Pak smazat `proxy.ts` a Basic Auth nahradit Access aplikací na celý web.
+- Cloudflare Access na Janově účtu (kroky 6–9 ve spiku): `/admin*`, přihlášení e-mailovým kódem pro Jana, Petra, Honzu. Celý web zůstává bez přihlášení (testovací prostředí, noindex).
 - `/admin` má čtyři sekce: **Díly, Články, Hosté, Fotky**. Úvod: co čeká na schválení.
 - Článek: úprava (titulek, perex, text, téma, hosté, díl), uložit koncept / schválit a zveřejnit / naplánovat / stáhnout. Každé uložení = revize + audit + revalidace dotčených stránek. Změna slugu zveřejněného článku zapíše přesměrování.
 - Díl: doplnění hostů, kapitol, fotky bez textu; ruční skrytí.
@@ -46,7 +46,8 @@ Každý krok končí nasazením na testovací adresu a ověřením. Pořadí je 
 ### 6. Spuštění (12. – 18. 12.)
 - Tester: všechny stránky, funnel na `/predplatne`, mobil 390 px, Lighthouse, JSON-LD.
 - Přesun na účet tvůrců (nový setup + export/import D1, odhad hodina) a doména `legson.cz`, ideálně do 14. 12., aby zbyl čas na kontrolu.
-- Den D: vypnout zámek celého webu, `SITE_PUBLIC=true` při buildu, nové nasazení, kontrola robots a sitemap, odeslat sitemap do Search Console.
+- Produkce s předstihem před dnem D: `SITE_PUBLIC=true` při buildu, kontrola robots a sitemap, odeslat sitemap do Search Console, ať Google indexuje postupně.
+- Den D: komunikace (sítě, newsletter).
 
 ## Co potřebujeme od tvůrců a do kdy
 | Do | Co | Pro krok |

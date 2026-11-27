@@ -26,7 +26,7 @@ Google / Discover → článek → přehrát díl → `/predplatne` → Herohero
 - Archiv se nemaže: díly od roku 2021 jsou hodnota webu i pro SEO. Slugy existujících stránek se nemění.
 - Desktop zachovává pořadí čtení z mobilu.
 - **Náklady drží kalkulace** („LEGS:ON web – roční kalkulace nákladů“ na Claudu, cca 4 100 Kč/rok v doporučené variantě). Nová placená služba se přidává jen se záznamem v `ROZHODNUTI.md`.
-- **Před dnem D web nevidí roboti ani veřejnost.** Indexace a veškerá komunikace se pouští najednou, v den D.
+- **Testovací prostředí bez hesla, ale neindexované.** Do přesunu na produkci web nevidí vyhledávače (noindex); adresu lze sdílet ke kontrole. Na produkci se nejdřív pustí indexace, komunikace až v den D.
 
 ## Díl vs. článek: hranice
 - **Detail dílu:** strohá stránka. „Tady je díl, pusť si ho“ + krátký perex z popisu, který tvůrci napsali pro streamy, + přehrávač, odkazy na platformy a CTA na předplatné. **[návrh]** Díl se publikuje automaticky hned po načtení z RSS, protože jeho text už tvůrci schválili při vydání.
@@ -54,7 +54,7 @@ Patří do něj:
 - Články.
 - **Newsletter:** napojený na skutečnou službu, se zachováním stávajících odběratelů.
 - **Administrace (redakční systém):** po nahrání dílu na platformy si web díl načte, analyzuje a připraví díl i článek ke schválení. Musí být postavená tak, aby se dala rozšiřovat (víc článků, e-shop, eventy).
-- Skrytý web do dne D (noindex + ochrana před veřejností), pak spuštění najednou.
+- Testovací prostředí neindexované (noindex), produkce se nechá indexovat s předstihem, komunikace v den D.
 
 **Mimo vánoční release:** e-shop (fáze 1; produkty a objednávky jsou ale v datovém modelu od začátku), eventy, zpravodajský provoz s více články týdně, partnerský program s daty, reklama.
 
