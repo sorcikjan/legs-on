@@ -1,18 +1,20 @@
-import generated from "@/data/content.generated.json";
+import { cache } from "react";
+import { getDb } from "@/lib/db";
 import { slugify } from "@/lib/format";
+import { pragueDay } from "@/lib/rss";
 
 /**
- * Články a hosté jsou Markdown soubory s jednoduchým frontmatterem
- * (`klíč: hodnota`, seznamy `[a, b]`). Tělo podporuje odstavce, `## nadpisy`,
+ * Články a hosté jsou v D1. Text článku je Markdown: odstavce, `## nadpisy`,
  * citace `> text` + `> — autor` a značky `::prehravac` a `::predplatne`.
+ * Původní Markdown soubory s frontmatterem (`content/`) se do D1 jednorázově importují (lib/sync.ts).
  */
 
-type Frontmatter = Record<string, string | string[]>;
+export type Frontmatter = Record<string, string | string[]>;
 
 /** Klíče se seznamem; jinde jsou hranaté závorky placeholder textu ("[role]"). */
 const LIST_KEYS = new Set(["tags", "guests", "episodes"]);
 
-function parseFile(source: string): { data: Frontmatter; body: string } {
+export function parseFile(source: string): { data: Frontmatter; body: string } {
   const match = source.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
   if (!match) return { data: {}, body: source };
   const data: Frontmatter = {};
@@ -58,17 +60,6 @@ export function parseBody(body: string): Block[] {
     });
 }
 
-async function readDir(dir: "clanky" | "hoste") {
-  const files = generated[dir] as Record<string, string>;
-  return Object.entries(files).map(([file, source]) => ({
-    slug: file.replace(/\.md$/, ""),
-    ...parseFile(source),
-  }));
-}
-
-const str = (v: string | string[] | undefined) => (Array.isArray(v) ? v.join(", ") : (v ?? ""));
-const list = (v: string | string[] | undefined) => (Array.isArray(v) ? v : v ? [v] : []);
-
 /* ---------- Témata ---------- */
 
 export const TOPICS = ["Silnice", "MTB", "Gravel", "Cyklokros", "Zákulisí týmů", "Příběhy"] as const;
@@ -96,26 +87,88 @@ export type Article = {
   blocks: Block[];
 };
 
-export async function getArticles(): Promise<Article[]> {
-  const files = await readDir("clanky");
-  return files
-    .map(({ slug, data, body }) => ({
-      slug,
-      title: str(data.title),
-      perex: str(data.perex),
-      topic: (topicFromSlug(slugify(str(data.topic))) ?? "Příběhy") as Topic,
-      tags: list(data.tags),
-      minutes: Number(data.minutes) || 3,
-      date: str(data.date),
-      episode: str(data.episode),
-      guests: list(data.guests),
-      image: str(data.image) || undefined,
-      imageAlt: str(data.imageAlt),
-      featured: Number(data.featured) || 0,
-      blocks: parseBody(body),
+type ArticleRow = {
+  id: number;
+  slug: string;
+  title: string;
+  perex: string | null;
+  body_md: string;
+  topic: string | null;
+  published_at: string;
+  image_url: string | null;
+  image_alt: string | null;
+  minutes: number | null;
+  featured: number;
+};
+
+const readingMinutes = (body: string) => Math.max(1, Math.round(body.split(/\s+/).length / 200));
+
+/** Zveřejněné články z D1 (včetně naplánovaných, jejichž čas už nastal). Při buildu (bez D1) prázdné. */
+export const getArticles = cache(async (): Promise<Article[]> => {
+  const db = await getDb();
+  if (!db) return [];
+  const now = new Date().toISOString();
+  const visible = `a.status = 'published' AND a.deleted_at IS NULL AND a.published_at <= ?1`;
+  const [articles, tags, episodes, guests] = await db.batch([
+    db
+      .prepare(
+        `SELECT a.id, a.slug, a.title, a.perex, a.body_md, t.name AS topic, a.published_at, a.image_url,
+                a.image_alt, a.minutes, a.featured
+           FROM articles a LEFT JOIN tags t ON t.id = a.primary_tag_id
+          WHERE ${visible}`,
+      )
+      .bind(now),
+    db
+      .prepare(
+        `SELECT at.article_id AS id, t.name AS value FROM article_tags at
+           JOIN articles a ON a.id = at.article_id JOIN tags t ON t.id = at.tag_id
+          WHERE ${visible} ORDER BY t.sort_order, t.name`,
+      )
+      .bind(now),
+    db
+      .prepare(
+        `SELECT ae.article_id AS id, lower(e.series) || '-' ||
+                CASE WHEN e.series = 'Espresso' THEN printf('%03d', e.num) ELSE e.num END AS value
+           FROM article_episodes ae JOIN articles a ON a.id = ae.article_id
+           JOIN episodes e ON e.guid = ae.episode_guid
+          WHERE ${visible} ORDER BY ae.position`,
+      )
+      .bind(now),
+    db
+      .prepare(
+        `SELECT ap.article_id AS id, p.slug AS value FROM article_people ap
+           JOIN articles a ON a.id = ap.article_id JOIN people p ON p.id = ap.person_id
+          WHERE ${visible} AND ap.role = 'guest' ORDER BY ap.position`,
+      )
+      .bind(now),
+  ]);
+  const group = (rows: unknown[]) => {
+    const map = new Map<number, string[]>();
+    for (const r of rows as { id: number; value: string }[]) map.set(r.id, [...(map.get(r.id) ?? []), String(r.value)]);
+    return map;
+  };
+  const tagMap = group(tags.results);
+  const episodeMap = group(episodes.results);
+  const guestMap = group(guests.results);
+
+  return (articles.results as ArticleRow[])
+    .map((a) => ({
+      slug: a.slug,
+      title: a.title,
+      perex: a.perex ?? "",
+      topic: (topicFromSlug(slugify(a.topic ?? "")) ?? "Příběhy") as Topic,
+      tags: tagMap.get(a.id) ?? [],
+      minutes: a.minutes ?? readingMinutes(a.body_md),
+      date: pragueDay(a.published_at),
+      episode: episodeMap.get(a.id)?.[0] ?? "",
+      guests: guestMap.get(a.id) ?? [],
+      image: a.image_url ?? undefined,
+      imageAlt: a.image_alt ?? "",
+      featured: a.featured,
+      blocks: parseBody(a.body_md),
     }))
     .sort((a, b) => b.date.localeCompare(a.date) || a.title.localeCompare(b.title, "cs"));
-}
+});
 
 export async function getArticle(slug: string) {
   return (await getArticles()).find((a) => a.slug === slug);
@@ -148,24 +201,48 @@ export type Guest = {
   bio: string;
 };
 
-export async function getGuests(): Promise<Guest[]> {
-  const files = await readDir("hoste");
-  return files
-    .map(({ slug, data, body }) => ({
-      slug,
-      name: str(data.name),
-      role: str(data.role) || "[role]",
-      withName: str(data.withName) || str(data.name),
-      shortWith: str(data.shortWith) || str(data.name),
-      photo: str(data.photo) || undefined,
-      discipline: str(data.discipline),
-      team: str(data.team),
-      episodeLabels: list(data.episodes),
-      order: Number(data.order) || 999,
-      bio: body || "[Krátké bio hosta.]",
+type GuestRow = {
+  slug: string;
+  name: string;
+  role: string | null;
+  name_instrumental: string | null;
+  name_with_short: string | null;
+  photo_url: string | null;
+  discipline: string | null;
+  team: string | null;
+  extra_episode_labels_json: string | null;
+  sort_order: number | null;
+  bio_md: string | null;
+};
+
+/** Hosté se zveřejněným profilem. Při buildu (bez D1) prázdné. */
+export const getGuests = cache(async (): Promise<Guest[]> => {
+  const db = await getDb();
+  if (!db) return [];
+  const { results } = await db
+    .prepare(
+      `SELECT p.slug, p.name, p.role, p.name_instrumental, p.name_with_short, p.photo_url, p.discipline,
+              t.name AS team, p.extra_episode_labels_json, p.sort_order, p.bio_md
+         FROM people p LEFT JOIN tags t ON t.id = p.team_tag_id
+        WHERE p.is_guest = 1 AND p.published_at IS NOT NULL AND p.deleted_at IS NULL`,
+    )
+    .all<GuestRow>();
+  return results
+    .map((g) => ({
+      slug: g.slug,
+      name: g.name,
+      role: g.role || "[role]",
+      withName: g.name_instrumental || g.name,
+      shortWith: g.name_with_short || g.name,
+      photo: g.photo_url || undefined,
+      discipline: g.discipline ?? "",
+      team: g.team ?? "",
+      episodeLabels: g.extra_episode_labels_json ? JSON.parse(g.extra_episode_labels_json) : [],
+      order: g.sort_order ?? 999,
+      bio: g.bio_md || "[Krátké bio hosta.]",
     }))
     .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name, "cs"));
-}
+});
 
 export async function getGuest(slug: string) {
   return (await getGuests()).find((g) => g.slug === slug);

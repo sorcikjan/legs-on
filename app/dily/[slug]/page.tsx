@@ -23,9 +23,12 @@ const SERIES_NAMES: Record<Series, string> = {
   Speciál: "Speciály",
 };
 
-export async function generateStaticParams() {
-  return (await getEpisodes()).map((e) => ({ slug: e.slug }));
+/** Obsah je v D1: build ho nevidí, stránka se vyrenderuje při první návštěvě a drží v cache do revalidace. */
+export function generateStaticParams() {
+  return [];
 }
+
+export const revalidate = 900;
 
 export async function generateMetadata({ params }: PageProps<"/dily/[slug]">): Promise<Metadata> {
   const episode = await getEpisode((await params).slug);

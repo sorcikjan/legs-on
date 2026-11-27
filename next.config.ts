@@ -1,4 +1,8 @@
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 import type { NextConfig } from "next";
+
+// `next dev` dostane bindingy z wrangler.jsonc (lokální D1 v .wrangler/state).
+initOpenNextCloudflareForDev();
 
 const nextConfig: NextConfig = {
   /* config options here */

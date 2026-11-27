@@ -48,6 +48,11 @@ const pragueDate = new Intl.DateTimeFormat("en-CA", {
   day: "2-digit",
 });
 
+/** "2026-11-20" – den vydání v Europe/Prague z ISO času. */
+export function pragueDay(iso: string) {
+  return pragueDate.format(new Date(iso));
+}
+
 export function parseRss(xml: string): EpisodeInput[] {
   const items = xml.match(/<item[\s>][\s\S]*?<\/item>/gi) ?? [];
   return items.flatMap((item) => {
@@ -58,6 +63,8 @@ export function parseRss(xml: string): EpisodeInput[] {
     const description = tag(item, "description");
     return [
       {
+        guid: tag(item, "guid"),
+        publishedAt: new Date(pubDate).toISOString(),
         title,
         date: pragueDate.format(new Date(pubDate)),
         minutes: durationMinutes(tag(item, "itunes:duration")),

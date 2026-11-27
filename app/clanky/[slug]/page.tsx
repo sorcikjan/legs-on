@@ -13,9 +13,12 @@ import { findEpisodeRef, playable, type Episode } from "@/lib/episodes";
 import { longDate } from "@/lib/format";
 import { articleLd } from "@/lib/jsonld";
 
-export async function generateStaticParams() {
-  return (await getArticles()).map((a) => ({ slug: a.slug }));
+/** Obsah je v D1: build ho nevidí, stránka se vyrenderuje při první návštěvě a drží v cache do revalidace. */
+export function generateStaticParams() {
+  return [];
 }
+
+export const revalidate = 900;
 
 export async function generateMetadata({ params }: PageProps<"/clanky/[slug]">): Promise<Metadata> {
   const article = await getArticle((await params).slug);

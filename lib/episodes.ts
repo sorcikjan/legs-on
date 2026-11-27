@@ -1,7 +1,9 @@
+import { cache } from "react";
 import { episodeExtras } from "@/data/episodes";
+import { getDb } from "@/lib/db";
 import feedSnapshot from "@/data/feed.json";
 import { slugify } from "@/lib/format";
-import { parseRss } from "@/lib/rss";
+import { parseRss, pragueDay } from "@/lib/rss";
 import { PODCAST_RSS_URL } from "@/lib/site";
 
 export type Series = "Rozhovor" | "Espresso" | "Příběhy" | "Speciál";
@@ -11,6 +13,10 @@ export type TranscriptLine = { speaker: string; text: string };
 
 /** Díl tak, jak přichází z RSS nebo ze zálohy data/feed.json. */
 export type EpisodeInput = {
+  /** <guid> z RSS – neměnný klíč dílu v databázi. */
+  guid?: string;
+  /** pubDate z RSS jako ISO 8601 (UTC). */
+  publishedAt?: string;
   title: string;
   date: string;
   minutes: number;
@@ -77,7 +83,7 @@ export function normalizeEpisode(input: EpisodeInput): Episode {
   // Prázdný guest v data/episodes.ts znamená, že název není jméno hosta.
   const guest = (input.guest ?? parsed.guest) || undefined;
 
-  const label = num === 0 ? "" : series === "Espresso" ? `#${String(num).padStart(3, "0")}` : `#${num}`;
+  const label = episodeLabel(series, num);
   const name = slugify(guest ?? title).split("-").slice(0, 6).join("-");
   let slug: string;
   if (series === "Espresso") slug = num ? `espresso-${String(num).padStart(3, "0")}` : `espresso-${input.date.slice(0, 4)}-${name}`;
@@ -104,18 +110,18 @@ export function normalizeEpisode(input: EpisodeInput): Episode {
   };
 }
 
-async function loadFeed(): Promise<EpisodeInput[]> {
-  // Díly vychází jednou až dvakrát týdně, denní obnova stačí (fetch revalidate 1 den).
+/** Díly z RSS (se zálohou data/feed.json) a doplňky z data/episodes.ts. Zdroj pro synchronizaci do D1. */
+export async function loadFeed(): Promise<EpisodeInput[]> {
   let inputs: EpisodeInput[] = feedSnapshot;
   if (PODCAST_RSS_URL) {
     try {
-      const res = await fetch(PODCAST_RSS_URL, { next: { revalidate: 86400, tags: ["rss"] } });
+      const res = await fetch(PODCAST_RSS_URL, { cache: "no-store" });
       if (!res.ok) throw new Error(`RSS ${res.status}`);
       const parsed = parseRss(await res.text());
       if (parsed.length === 0) throw new Error("RSS bez dílů");
       inputs = parsed;
     } catch (error) {
-      // Výpadek feedu nesmí rozbít web.
+      // Výpadek feedu nesmí rozbít synchronizaci.
       console.error("Načtení RSS selhalo, používám data/feed.json:", error);
     }
   }
@@ -126,10 +132,65 @@ async function loadFeed(): Promise<EpisodeInput[]> {
   });
 }
 
-export async function getEpisodes(): Promise<Episode[]> {
-  const inputs = await loadFeed();
-  return inputs.map(normalizeEpisode).sort((a, b) => b.date.localeCompare(a.date));
+type EpisodeRow = {
+  guid: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  audio_url: string;
+  cover_url: string | null;
+  image_url: string | null;
+  duration_s: number | null;
+  published_at: string;
+  series: Series;
+  num: number | null;
+  chapters_json: string | null;
+  guest_name: string | null;
+  guest_slug: string | null;
+};
+
+function episodeLabel(series: string, num: number) {
+  return num === 0 ? "" : series === "Espresso" ? `#${String(num).padStart(3, "0")}` : `#${num}`;
 }
+
+function rowToEpisode(r: EpisodeRow): Episode {
+  const num = r.num ?? 0;
+  return {
+    slug: r.slug,
+    series: r.series,
+    num,
+    label: episodeLabel(r.series, num),
+    title: r.title,
+    guest: r.guest_name ?? undefined,
+    guestSlug: r.guest_slug ?? undefined,
+    date: pragueDay(r.published_at),
+    minutes: Math.round((r.duration_s ?? 0) / 60),
+    audio: r.audio_url,
+    image: r.image_url ?? undefined,
+    cover: r.cover_url ?? undefined,
+    description: r.description ?? "[Popis dílu chybí v RSS feedu.]",
+    chapters: r.chapters_json ? JSON.parse(r.chapters_json) : [],
+    transcript: [],
+  };
+}
+
+/** Zveřejněné díly z D1, nejnovější první. Při buildu (bez D1) prázdné. */
+export const getEpisodes = cache(async (): Promise<Episode[]> => {
+  const db = await getDb();
+  if (!db) return [];
+  const { results } = await db
+    .prepare(
+      `SELECT e.guid, e.slug, e.title, e.description, e.audio_url, e.cover_url, e.image_url, e.duration_s,
+              e.published_at, e.series, e.num, e.chapters_json, p.name AS guest_name, p.slug AS guest_slug
+         FROM episodes e
+         LEFT JOIN episode_people ep ON ep.episode_guid = e.guid AND ep.role = 'guest' AND ep.position = 0
+         LEFT JOIN people p ON p.id = ep.person_id AND p.deleted_at IS NULL
+        WHERE e.status = 'published' AND e.deleted_at IS NULL
+        ORDER BY e.published_at DESC`,
+    )
+    .all<EpisodeRow>();
+  return results.map(rowToEpisode);
+});
 
 export async function getEpisode(slug: string) {
   return (await getEpisodes()).find((e) => e.slug === slug);

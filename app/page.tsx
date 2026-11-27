@@ -13,6 +13,9 @@ import { shortDate } from "@/lib/format";
 import { podcastSeriesLd } from "@/lib/jsonld";
 import { PLATFORMS, PRICE, STATS } from "@/lib/site";
 
+/** Záchranná síť, kdyby revalidace po nasazení nebo po úpravě selhala (docs/tech/SPIKE-CLOUDFLARE.md). */
+export const revalidate = 900;
+
 export const metadata: Metadata = {
   title: { absolute: "LEGS:ON – cyklistický podcast Petra a Honzy" },
   alternates: { canonical: "/" },
@@ -109,6 +112,8 @@ function Spotlight({ latest, interview }: { latest: Episode; interview?: Episode
 export default async function HomePage() {
   const [episodes, articles, guests] = await Promise.all([getEpisodes(), getArticles(), getGuests()]);
   const latest = episodes[0];
+  // Jen během buildu (D1 není k dispozici); po nasazení stránku hned přepíše revalidace.
+  if (!latest) return <section className="px-5 py-24 text-center">Načítáme díly…</section>;
   const interview = episodes.find((e) => e.series === "Rozhovor" && e.slug !== latest.slug);
   const rest = episodes.filter((e) => e !== latest && e !== interview).slice(0, 6);
 

@@ -4,6 +4,9 @@ import { ArticlesIndex } from "@/components/ArticlesIndex";
 import { Breadcrumbs } from "@/components/bits";
 import { topicFromSlug, topicSlug, TOPICS } from "@/lib/content";
 
+/** Záchranná síť, kdyby revalidace po nasazení nebo po úpravě selhala (docs/tech/SPIKE-CLOUDFLARE.md). */
+export const revalidate = 900;
+
 export function generateStaticParams() {
   return TOPICS.map((t) => ({ tema: topicSlug(t) }));
 }

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { ArticlesIndex } from "@/components/ArticlesIndex";
 
+/** Záchranná síť, kdyby revalidace po nasazení nebo po úpravě selhala (docs/tech/SPIKE-CLOUDFLARE.md). */
+export const revalidate = 900;
+
 export const metadata: Metadata = {
   title: "Články o cyklistice z podcastu",
   description:

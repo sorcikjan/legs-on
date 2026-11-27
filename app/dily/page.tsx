@@ -5,6 +5,9 @@ import { EpisodeRow } from "@/components/EpisodeRow";
 import { ListenOn } from "@/components/ListenOn";
 import { getEpisodes } from "@/lib/episodes";
 
+/** Záchranná síť, kdyby revalidace po nasazení nebo po úpravě selhala (docs/tech/SPIKE-CLOUDFLARE.md). */
+export const revalidate = 900;
+
 export const metadata: Metadata = {
   title: "Všechny díly podcastu",
   description:

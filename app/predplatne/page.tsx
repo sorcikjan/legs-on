@@ -6,6 +6,9 @@ import { HeroheroLink } from "@/components/TrackedLink";
 import { getEpisodes } from "@/lib/episodes";
 import { heroheroUrl, PRICE, STATS } from "@/lib/site";
 
+/** Záchranná síť, kdyby revalidace po nasazení nebo po úpravě selhala (docs/tech/SPIKE-CLOUDFLARE.md). */
+export const revalidate = 900;
+
 export const metadata: Metadata = {
   title: "Předplatné – šlapej s námi",
   description:

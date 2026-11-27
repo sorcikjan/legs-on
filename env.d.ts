@@ -12,4 +12,5 @@ interface CloudflareEnv {
   SITE_PUBLIC?: string;
   ACCESS_TEAM_DOMAIN?: string;
   ACCESS_AUD?: string;
+  ADMIN_TOKEN?: string;
 }

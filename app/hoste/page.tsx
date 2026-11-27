@@ -8,6 +8,9 @@ import { PersonPlaceholder } from "@/components/icons";
 import { getGuests } from "@/lib/content";
 import { episodeTag, getEpisodes } from "@/lib/episodes";
 
+/** Záchranná síť, kdyby revalidace po nasazení nebo po úpravě selhala (docs/tech/SPIKE-CLOUDFLARE.md). */
+export const revalidate = 900;
+
 export const metadata: Metadata = {
   title: "Hosté podcastu",
   description:

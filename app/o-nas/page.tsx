@@ -7,6 +7,9 @@ import { getEpisodes } from "@/lib/episodes";
 import { aboutLd } from "@/lib/jsonld";
 import { CONTACT_EMAIL, STATS } from "@/lib/site";
 
+/** Záchranná síť, kdyby revalidace po nasazení nebo po úpravě selhala (docs/tech/SPIKE-CLOUDFLARE.md). */
+export const revalidate = 900;
+
 export const metadata: Metadata = {
   title: "O nás – Petr a Honza",
   description:

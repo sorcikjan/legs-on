@@ -14,7 +14,8 @@
 - Práce mimo dohodnutý rozsah: označ ji dřív, než se udělá, a zapiš do `docs/ROZHODNUTI.md`, kdo ji schválil.
 
 ## Data a obsah
-- Díly: oficiální RSS `https://anchor.fm/s/fa24f0a4/podcast/rss` (Spotify for Creators, ne SoundCloud), obnova jednou denně (`cacheLife("days")`). Záloha `data/feed.json` – obnovit `npm run snapshot`.
+- Obsah (díly, články, hosté) je v D1 (`lib/episodes.ts`, `lib/content.ts`; zápis `lib/sync.ts`). Stránky: build D1 nevidí, `generateStaticParams` vrací `[]`, `revalidate = 900`, po nasazení `scripts/post-deploy.mjs`.
+- Díly: oficiální RSS `https://anchor.fm/s/fa24f0a4/podcast/rss` (Spotify for Creators, ne SoundCloud) → D1 přes `POST /api/admin/sync` (Bearer `ADMIN_TOKEN`; `?content=1` jednorázový import `content/*.md`). Slug uloženého dílu se nikdy nemění; report `slugMismatches` musí být prázdný. Záloha `data/feed.json` – obnovit `npm run snapshot`.
 - Názvy dílů jsou nepravidelné (parser v `lib/episodes.ts`): `ESPRESSO #97: …`, `#42 LEGS:ON podcast - … | Host`, starší `#16 LEGS:ON podcast - Jméno`, `#LEGS:ON ESPRESSO - Jméno` (2021, bez čísla), `PŘÍBĚHY PELOTONU #6: …`, `… | Tour de France s Michalem Schlegelem`, `#37 … - SPECIÁL …`. Rozhovor #28 existuje dvakrát (Schlegel, Fabián).
 - Co ve feedu není (fotka bez textu, host, kapitoly, přepis): `data/episodes.ts`, párování podle začátku názvu.
 - Datum dílu počítat v Europe/Prague (vychází kolem půlnoci UTC). Espresso vychází v pátek.
@@ -22,5 +23,5 @@
 
 ## Nasazení
 - Push na `main` = build a deploy přes Cloudflare Workers Builds (worker `legs-on`, dočasně Janův účet). Pushuj v dávkách.
-- Workers Builds: build command `npx opennextjs-cloudflare build` (ne `npm run build`), deploy `npx wrangler deploy`.
+- Workers Builds: build command `npx opennextjs-cloudflare build` (ne `npm run build`), deploy `npx wrangler deploy && npm run post-deploy` (build proměnná `ADMIN_TOKEN` = secret workeru).
 - Testovací prostředí: https://legs-on.sorcikjan.workers.dev, bez hesla, noindex (dokud `SITE_PUBLIC` není `true`). Volitelné heslo: secret `SITE_PASSWORD` (nastavovat v dashboardu, `wrangler secret put` přes `!` uloží prázdnou hodnotu).

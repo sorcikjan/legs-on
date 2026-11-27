@@ -13,9 +13,12 @@ import { episodeTag, getEpisodesByGuest } from "@/lib/episodes";
 import { longDate } from "@/lib/format";
 import { personLd } from "@/lib/jsonld";
 
-export async function generateStaticParams() {
-  return (await getGuests()).map((g) => ({ slug: g.slug }));
+/** Obsah je v D1: build ho nevidí, stránka se vyrenderuje při první návštěvě a drží v cache do revalidace. */
+export function generateStaticParams() {
+  return [];
 }
+
+export const revalidate = 900;
 
 export async function generateMetadata({ params }: PageProps<"/hoste/[slug]">): Promise<Metadata> {
   const guest = await getGuest((await params).slug);

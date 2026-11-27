@@ -3,6 +3,9 @@ import { getArticles, getGuests, topicSlug, TOPICS } from "@/lib/content";
 import { getEpisodes } from "@/lib/episodes";
 import { SITE_URL } from "@/lib/site";
 
+/** Záchranná síť, kdyby revalidace po nasazení nebo po úpravě selhala (docs/tech/SPIKE-CLOUDFLARE.md). */
+export const revalidate = 900;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [episodes, articles, guests] = await Promise.all([getEpisodes(), getArticles(), getGuests()]);
   const url = (path: string) => `${SITE_URL}${path}`;
