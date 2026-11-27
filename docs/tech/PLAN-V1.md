@@ -9,6 +9,8 @@ Stav 27. 11. 2026. Den D navržen na pátek **18. 12.**, uzávěrka textů 16. 1
 Každý krok končí nasazením na testovací adresu a ověřením. Pořadí je dané závislostmi: bez dat v D1 není co spravovat, bez administrace není kam synchronizovat.
 
 ### 1. Obsah v databázi (27. 11. – 1. 12.)
+**Stav 27. 11.: hotovo**, kromě kroku po nasazení v dashboardu. Na testovací adrese běží z D1 158 dílů, 38 hostů, 20 článků. Sitemap i texty stránek se shodují s verzí ze souborů, `slugMismatches` je prázdné. Vypuštěné jen zástupné texty prototypu (vymyšlený přepis u #40, ukázkové bio). CPU (wrangler tail): stránka z cache 5–22 ms, vykreslení 26–173 ms (`/dily`). Free limit 10 ms nestačí, produkce potřebuje Workers Paid (je v doporučené variantě kalkulace).
+
 - Importní skript (`scripts/import-d1.mjs`, idempotentní): 157 dílů z RSS do `episodes`, 38 hostů z `content/hoste` do `people` + vazby `episode_people`, 20 článků z `content/clanky` do `articles` (`source='import'`, schválené) + štítky a vazby.
 - Test podmínky spuštění: slugy všech dílů v D1 = slugy z dnešního `lib/episodes.ts`.
 - Veřejné stránky čtou z D1 (datová vrstva v `lib/`, vzor ze spiku: `generateStaticParams` → `[]`, seznamy `revalidate = 900`). Markdown a `content.generated.json` po přepnutí odpadnou.
