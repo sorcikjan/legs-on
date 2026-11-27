@@ -18,15 +18,18 @@ Každý krok končí nasazením na testovací adresu a ověřením. Pořadí je 
 
 ### 2. Administrace (2. – 8. 12.)
 - Cloudflare Access na Janově účtu (kroky 6–9 ve spiku): `/admin*`, přihlášení e-mailovým kódem pro Jana, Petra, Honzu. Pak smazat `proxy.ts` a Basic Auth nahradit Access aplikací na celý web.
-- `/admin`: seznam dílů a článků se stavy a filtrem „čeká na schválení".
+- `/admin` má čtyři sekce: **Díly, Články, Hosté, Fotky**. Úvod: co čeká na schválení.
 - Článek: úprava (titulek, perex, text, téma, hosté, díl), uložit koncept / schválit a zveřejnit / naplánovat / stáhnout. Každé uložení = revize + audit + revalidace dotčených stránek. Změna slugu zveřejněného článku zapíše přesměrování.
 - Díl: doplnění hostů, kapitol, fotky bez textu; ruční skrytí.
-- Fotky: nahrání do R2 (`legson-media`) s popiskem a autorem. Licence jen jako pole, řeší se otázkou na tvůrce.
+- Hosté: profil (jméno, tvary jména, role, bio, fotka, odkazy pro JSON-LD), stav koncept / zveřejněný. Seznam dílů a článků na `/hoste/[slug]` se skládá z vazeb, ručně se nevyplňuje.
+- Fotky: jedna knihovna v R2 (`legson-media`), nahrání s popiskem, autorem a licencí, výběr k dílu, hostovi i článku. Výřezy (mobil, Discover, OG) za běhu podle bodu zájmu.
+- Video: jen vložené (YouTube, Instagram) jako blok v textu článku nebo dílu. Vlastní hosting videa ne (mimo kalkulaci).
 - Vzhled: jednoduchý funkční seznam a formuláře v barvách a písmech webu, bez návrhu od Designera. **Čeká na Janovo ano.**
 - **Hotovo když:** Petr může přihlásit, upravit a zveřejnit článek a změna je na webu hned.
 
 ### 3. Automatické načítání dílů (do 9. 12.)
 - GitHub Action denně ráno + ručně: nový díl z RSS → `episodes` jako zveřejněný, k němu prázdný koncept článku propojený s dílem → revalidace.
+- Neznámý host z názvu dílu → koncept v `people` připojený k dílu; tvůrci doplní fotku a bio a zveřejní.
 - Token jen D1 Edit na tento účet, uložený v GitHub secrets.
 - **Hotovo když:** nový díl se na webu objeví do druhého dne bez zásahu a v administraci čeká koncept.
 

@@ -4,6 +4,7 @@ Nejnovější nahoře. Kdo = kdo rozhodl nebo schválil (Jan / tvůrci / společ
 
 | Datum | Rozhodnutí | Proč | Kdo |
 |---|---|---|---|
+| 2026-11-27 | Administrace má sekce Díly, Články, Hosté, Fotky. Profil hosta se upravuje v administraci, jeho díly a články se skládají z vazeb; nového hosta z RSS založí synchronizace jako koncept. Fotky jsou jedna knihovna pro všechno. Video jen vložené (YouTube, Instagram), bez vlastního hostingu. | Hosté a fotky jsou obsah stejně jako články a musí jít spravovat bez programátora; vlastní video by stálo mimo kalkulaci. | Jan |
 | 2026-11-26 | Do dodání karty a účtů od tvůrců běží web na Janově Cloudflare účtu (bezplatný tarif). Vše je popsané v kódu (wrangler.jsonc, migrace), přesun na účet tvůrců = nový setup + export/import D1. | Práce nesmí čekat na enablery od tvůrců. | Jan |
 | 2026-11-26 | Datový model na rok (report `docs/tech/SPIKE-CLOUDFLARE.md`): e-shop tabulky se do vánočního releasu neposílají (`migrations-later/`), projdou se s účetní. | Nové tabulky se dají přidat kdykoli bez přestavby. | Jan |
 | 2026-11-26 | Budoucí adresy: `/merch`, `/autori`, `/newsletter`; `/jezdci`, `/tymy`, `/zavody` jen rezervované. Současné adresy se nemění. | SEO: adresy se po indexaci nesmí měnit. | Jan |
