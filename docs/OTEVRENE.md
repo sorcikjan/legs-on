@@ -25,5 +25,4 @@ Po zodpovězení přesunout odpověď do `ROZHODNUTI.md` a otázku smazat.
 ## Technika a provoz
 - [ ] **Fotky:** originály fotek k obálkám (teď výřezy z obálek s textem).
 - [ ] **Doména legson.cz:** vlastní ji tvůrci, teď na ní běží rozcestník na sociální sítě. U kterého registrátora je a kdy může Jan dostat přístup k DNS? Ten je potřeba dlouho před dnem D kvůli odesílání newsletteru (SPF/DKIM).
-- [ ] **Účty služeb:** platí karta tvůrců, provozuje Jan. Účty založit na společný e-mail podcastu, ne na Janův osobní. Který e-mail to bude?
-- [ ] **Analytika:** Plausible / Umami / GA4 s cookie lištou – kdo platí, kdo má přístup?
+- [ ] **Účty služeb:** platí karta tvůrců, provozuje Jan. Účty založit na společný e-mail podcastu, ne na Janův osobní (i Google Analytics). Který e-mail to bude?

@@ -4,6 +4,7 @@ Nejnovější nahoře. Kdo = kdo rozhodl nebo schválil (Jan / tvůrci / společ
 
 | Datum | Rozhodnutí | Proč | Kdo |
 |---|---|---|---|
+| 2026-11-27 | Měření návštěvnosti: Google Analytics 4 s cookie lištou (Consent Mode v2). Účet GA se zakládá na společný e-mail podcastu. | Kalkulace s GA4 počítá; bez souhlasu se analytické cookies v ČR nesmí zapnout. | Jan |
 | 2026-11-27 | Do administrace se na testovacím prostředí přihlašuje heslem (`ADMIN_PASSWORD`, jméno = autor změn). Cloudflare Access s e-mailovým kódem se zapne na produkční doméně. | Access chrání jen cesty na vlastní doméně; workers.dev doména účtu není. Kód přijímá obojí, Access má přednost. | Jan |
 | 2026-11-27 | Administrace bez návrhu od Designera: jednoduché seznamy a formuláře v barvách a písmech webu. | Rychlost; administraci vidí jen tvůrci. | Jan |
 | 2026-11-27 | Testovací prostředí (workers.dev) je bez hesla, jen noindex. Po přesunu na produkci (účet tvůrců, legson.cz) se nejdřív nechá Google postupně indexovat, komunikace se spustí až v den D. Mění rozhodnutí z 26. 11. o indexaci až od dne D. | Tvůrci chtějí web sdílet ke kontrole bez hesla; postupná indexace před dnem D dá Googlu čas. Riziko: adresu může kdokoli přeposlat a obsah je vidět před dnem D. | Jan |
