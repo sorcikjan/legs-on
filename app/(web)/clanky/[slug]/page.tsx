@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { ArticleCard, withSource } from "@/components/ArticleCard";
 import { Breadcrumbs } from "@/components/bits";
 import { CtaBand } from "@/components/CtaBand";
+import { redirectOrNotFound } from "@/lib/redirects";
 import { JsonLd } from "@/components/JsonLd";
 import { PlayButton } from "@/components/player/PlayButton";
 import { SubscribeLink, TrackedLink } from "@/components/TrackedLink";
@@ -102,7 +102,7 @@ function Body({ blocks, episode }: { blocks: Block[]; episode?: Episode }) {
 export default async function ArticlePage({ params }: PageProps<"/clanky/[slug]">) {
   const { slug } = await params;
   const [article, articles, guests] = await Promise.all([getArticle(slug), getArticles(), getGuests()]);
-  if (!article) notFound();
+  if (!article) return redirectOrNotFound(`/clanky/${slug}`);
 
   const episode = await findEpisodeRef(article.episode);
   const articleGuests = guests.filter((g) => article.guests.includes(g.slug));

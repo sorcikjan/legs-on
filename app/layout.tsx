@@ -1,9 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Poppins } from "next/font/google";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { MiniPlayer } from "@/components/player/MiniPlayer";
-import { PlayerProvider } from "@/components/player/PlayerProvider";
 import { PODCAST_RSS_URL, SITE_DESCRIPTION, SITE_NAME, SITE_PUBLIC, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -50,14 +46,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="cs" className={`${anton.variable} ${poppins.variable} antialiased`}>
-      <body className="flex min-h-screen flex-col">
-        <PlayerProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <MiniPlayer />
-        </PlayerProvider>
-      </body>
+      <body className="flex min-h-screen flex-col">{children}</body>
     </html>
   );
 }

@@ -13,4 +13,5 @@ interface CloudflareEnv {
   ACCESS_TEAM_DOMAIN?: string;
   ACCESS_AUD?: string;
   ADMIN_TOKEN?: string;
+  ADMIN_PASSWORD?: string;
 }

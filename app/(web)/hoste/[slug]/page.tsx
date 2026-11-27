@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { ArticleCard, withSource } from "@/components/ArticleCard";
 import { Breadcrumbs, GuestNames, SectionLabel } from "@/components/bits";
 import { CtaBand } from "@/components/CtaBand";
 import { PersonPlaceholder, PlayIcon } from "@/components/icons";
+import { redirectOrNotFound } from "@/lib/redirects";
 import { JsonLd } from "@/components/JsonLd";
 import { SubscribeLink } from "@/components/TrackedLink";
 import { getArticles, getGuest, getGuests } from "@/lib/content";
@@ -40,7 +40,7 @@ export default async function GuestPage({ params }: PageProps<"/hoste/[slug]">) 
     getArticles(),
     getEpisodesByGuest(slug),
   ]);
-  if (!guest) notFound();
+  if (!guest) return redirectOrNotFound(`/hoste/${slug}`);
 
   const related = withSource(
     articles.filter((a) => a.guests.includes(guest.slug)),

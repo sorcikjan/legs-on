@@ -19,14 +19,16 @@ Každý krok končí nasazením na testovací adresu a ověřením. Pořadí je 
 - **Hotovo když:** web na testovací adrese vypadá stejně jako dnes, ale data jdou z D1; test slugů zelený.
 
 ### 2. Administrace (2. – 8. 12.)
-- Cloudflare Access na Janově účtu (kroky 6–9 ve spiku): `/admin*`, přihlášení e-mailovým kódem pro Jana, Petra, Honzu. Celý web zůstává bez přihlášení (testovací prostředí, noindex).
+**Stav 27. 11.:** hotové články (seznam, úprava, koncept / zveřejnit / naplánovat / stáhnout / smazat, revize, audit, přesměrování při změně adresy), přihlášení heslem na testovacím prostředí. Zbývá: díly, hosté, fotky.
+
+- Přihlášení: na testovacím prostředí heslo (`ADMIN_PASSWORD`), na produkční doméně Cloudflare Access s e-mailovým kódem (kroky 6–9 ve spiku). Celý web zůstává bez přihlášení.
 - `/admin` má čtyři sekce: **Díly, Články, Hosté, Fotky**. Úvod: co čeká na schválení.
 - Článek: úprava (titulek, perex, text, téma, hosté, díl), uložit koncept / schválit a zveřejnit / naplánovat / stáhnout. Každé uložení = revize + audit + revalidace dotčených stránek. Změna slugu zveřejněného článku zapíše přesměrování.
 - Díl: doplnění hostů, kapitol, fotky bez textu; ruční skrytí.
 - Hosté: profil (jméno, tvary jména, role, bio, fotka, odkazy pro JSON-LD), stav koncept / zveřejněný. Seznam dílů a článků na `/hoste/[slug]` se skládá z vazeb, ručně se nevyplňuje.
 - Fotky: jedna knihovna v R2 (`legson-media`), nahrání s popiskem, autorem a licencí, výběr k dílu, hostovi i článku. Výřezy (mobil, Discover, OG) za běhu podle bodu zájmu.
 - Video: jen vložené (YouTube, Instagram) jako blok v textu článku nebo dílu. Vlastní hosting videa ne (mimo kalkulaci).
-- Vzhled: jednoduchý funkční seznam a formuláře v barvách a písmech webu, bez návrhu od Designera. **Čeká na Janovo ano.**
+- Vzhled: jednoduchý funkční seznam a formuláře v barvách a písmech webu, bez návrhu od Designera (schváleno 27. 11.).
 - **Hotovo když:** Petr může přihlásit, upravit a zveřejnit článek a změna je na webu hned.
 
 ### 3. Automatické načítání dílů (do 9. 12.)

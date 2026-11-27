@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { ArticleCard, withSource } from "@/components/ArticleCard";
 import { Breadcrumbs } from "@/components/bits";
 import { CtaBand } from "@/components/CtaBand";
 import { EpisodeList } from "@/components/EpisodeRow";
 import { Collapsible, ShareButtons } from "@/components/Interactive";
+import { redirectOrNotFound } from "@/lib/redirects";
 import { JsonLd } from "@/components/JsonLd";
 import { Chapters, EpisodePlayer } from "@/components/player/EpisodePlayer";
 import { SubscribeLink } from "@/components/TrackedLink";
@@ -63,7 +63,7 @@ export default async function EpisodePage({ params }: PageProps<"/dily/[slug]">)
     getArticles(),
     getGuests(),
   ]);
-  if (!episode) notFound();
+  if (!episode) return redirectOrNotFound(`/dily/${slug}`);
 
   const guest = episode.guestSlug ? await getGuest(episode.guestSlug) : undefined;
   const related = withSource(
