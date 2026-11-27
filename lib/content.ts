@@ -85,6 +85,11 @@ export type Article = {
   imageAlt: string;
   featured: number;
   blocks: Block[];
+  /** Den podstatné úpravy (dateModified), jinak prázdné. */
+  modified?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  noindex: boolean;
 };
 
 type ArticleRow = {
@@ -99,6 +104,10 @@ type ArticleRow = {
   image_alt: string | null;
   minutes: number | null;
   featured: number;
+  modified_at: string | null;
+  seo_title: string | null;
+  seo_description: string | null;
+  noindex: number;
 };
 
 const readingMinutes = (body: string) => Math.max(1, Math.round(body.split(/\s+/).length / 200));
@@ -113,7 +122,7 @@ export const getArticles = cache(async (): Promise<Article[]> => {
     db
       .prepare(
         `SELECT a.id, a.slug, a.title, a.perex, a.body_md, t.name AS topic, a.published_at, a.image_url,
-                a.image_alt, a.minutes, a.featured
+                a.image_alt, a.minutes, a.featured, a.modified_at, a.seo_title, a.seo_description, a.noindex
            FROM articles a LEFT JOIN tags t ON t.id = a.primary_tag_id
           WHERE ${visible}`,
       )
@@ -166,6 +175,10 @@ export const getArticles = cache(async (): Promise<Article[]> => {
       imageAlt: a.image_alt ?? "",
       featured: a.featured,
       blocks: parseBody(a.body_md),
+      modified: a.modified_at ? pragueDay(a.modified_at) : undefined,
+      seoTitle: a.seo_title ?? undefined,
+      seoDescription: a.seo_description ?? undefined,
+      noindex: a.noindex === 1,
     }))
     .sort((a, b) => b.date.localeCompare(a.date) || a.title.localeCompare(b.title, "cs"));
 });
@@ -199,6 +212,8 @@ export type Guest = {
   /** Pořadí ve výpisu (nejnovější díl první). */
   order: number;
   bio: string;
+  /** Odkazy pro Person JSON-LD (Instagram, Wikipedie…). */
+  sameAs: string[];
 };
 
 type GuestRow = {
@@ -213,6 +228,7 @@ type GuestRow = {
   extra_episode_labels_json: string | null;
   sort_order: number | null;
   bio_md: string | null;
+  same_as_json: string | null;
 };
 
 /** Hosté se zveřejněným profilem. Při buildu (bez D1) prázdné. */
@@ -222,7 +238,7 @@ export const getGuests = cache(async (): Promise<Guest[]> => {
   const { results } = await db
     .prepare(
       `SELECT p.slug, p.name, p.role, p.name_instrumental, p.name_with_short, p.photo_url, p.discipline,
-              t.name AS team, p.extra_episode_labels_json, p.sort_order, p.bio_md
+              t.name AS team, p.extra_episode_labels_json, p.sort_order, p.bio_md, p.same_as_json
          FROM people p LEFT JOIN tags t ON t.id = p.team_tag_id
         WHERE p.is_guest = 1 AND p.published_at IS NOT NULL AND p.deleted_at IS NULL`,
     )
@@ -240,6 +256,7 @@ export const getGuests = cache(async (): Promise<Guest[]> => {
       episodeLabels: g.extra_episode_labels_json ? JSON.parse(g.extra_episode_labels_json) : [],
       order: g.sort_order ?? 999,
       bio: g.bio_md || "[Krátké bio hosta.]",
+      sameAs: g.same_as_json ? JSON.parse(g.same_as_json) : [],
     }))
     .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name, "cs"));
 });

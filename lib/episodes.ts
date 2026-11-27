@@ -49,6 +49,7 @@ export type Episode = {
   description: string;
   chapters: Chapter[];
   transcript: TranscriptLine[];
+  noindex?: boolean;
 };
 
 const ESPRESSO_RE = /^ESPRESSO\s*#\s*(\d+)\s*:\s*(.+)$/i;
@@ -145,6 +146,7 @@ type EpisodeRow = {
   series: Series;
   num: number | null;
   chapters_json: string | null;
+  noindex: number;
   guest_name: string | null;
   guest_slug: string | null;
 };
@@ -171,6 +173,7 @@ function rowToEpisode(r: EpisodeRow): Episode {
     description: r.description ?? "[Popis dílu chybí v RSS feedu.]",
     chapters: r.chapters_json ? JSON.parse(r.chapters_json) : [],
     transcript: [],
+    noindex: r.noindex === 1,
   };
 }
 
@@ -181,7 +184,7 @@ export const getEpisodes = cache(async (): Promise<Episode[]> => {
   const { results } = await db
     .prepare(
       `SELECT e.guid, e.slug, e.title, e.description, e.audio_url, e.cover_url, e.image_url, e.duration_s,
-              e.published_at, e.series, e.num, e.chapters_json, p.name AS guest_name, p.slug AS guest_slug
+              e.published_at, e.series, e.num, e.chapters_json, e.noindex, p.name AS guest_name, p.slug AS guest_slug
          FROM episodes e
          LEFT JOIN episode_people ep ON ep.episode_guid = e.guid AND ep.role = 'guest' AND ep.position = 0
          LEFT JOIN people p ON p.id = ep.person_id AND p.deleted_at IS NULL

@@ -54,6 +54,7 @@ export function articleLd(a: Article) {
     headline: a.title,
     description: a.perex,
     datePublished: a.date,
+    ...(a.modified && { dateModified: a.modified }),
     inLanguage: "cs",
     url: abs(`/clanky/${a.slug}`),
     image: a.image ? abs(a.image) : undefined,
@@ -70,6 +71,7 @@ export function personLd(g: Guest) {
     description: g.role,
     url: abs(`/hoste/${g.slug}`),
     image: g.photo ? abs(g.photo) : undefined,
+    ...(g.sameAs.length && { sameAs: g.sameAs }),
   };
 }
 

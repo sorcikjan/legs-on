@@ -23,16 +23,19 @@ export const revalidate = 900;
 export async function generateMetadata({ params }: PageProps<"/clanky/[slug]">): Promise<Metadata> {
   const article = await getArticle((await params).slug);
   if (!article) return {};
-  const description = article.perex.startsWith("[") ? `${article.title}. Článek z podcastu LEGS:ON.` : article.perex;
+  const description =
+    article.seoDescription ?? (article.perex.startsWith("[") ? `${article.title}. Článek z podcastu LEGS:ON.` : article.perex);
   return {
-    title: article.title,
+    title: article.seoTitle ?? article.title,
     description,
+    ...(article.noindex && { robots: { index: false, follow: true } }),
     alternates: { canonical: `/clanky/${article.slug}` },
     openGraph: {
       type: "article",
       title: article.title,
       description,
       publishedTime: article.date,
+      ...(article.modified && { modifiedTime: article.modified }),
       images: article.image ? [article.image] : ["/images/picnic.jpg"],
     },
   };

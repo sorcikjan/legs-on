@@ -43,6 +43,7 @@ export async function generateMetadata({ params }: PageProps<"/dily/[slug]">): P
     ? `${episodeTag(episode)} podcastu LEGS:ON – ${episode.title} Poslechni si díl, kapitoly a přepis.`
     : episode.description;
   return {
+    ...(episode.noindex && { robots: { index: false, follow: true } }),
     title,
     description,
     alternates: { canonical: `/dily/${episode.slug}` },

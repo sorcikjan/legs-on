@@ -15,7 +15,7 @@ export default async function AdminHome() {
               (SELECT count(*) FROM people WHERE is_guest = 1 AND published_at IS NOT NULL AND deleted_at IS NULL) AS guests`,
     ),
     db.prepare(
-      `SELECT slug, name FROM people WHERE is_guest = 1 AND published_at IS NULL AND deleted_at IS NULL
+      `SELECT id, slug, name FROM people WHERE is_guest = 1 AND published_at IS NULL AND deleted_at IS NULL
         AND id IN (SELECT person_id FROM episode_people ep JOIN episodes e ON e.guid = ep.episode_guid
                     WHERE e.published_at > datetime('now', '-60 days')) ORDER BY name`,
     ),
@@ -23,7 +23,7 @@ export default async function AdminHome() {
   ]);
   const c = counts.results[0] as { episodes: number; articles: number; guests: number };
   const draftRows = drafts.results as { id: number; title: string; source: string; updated_at: string }[];
-  const newGuests = guests.results as { slug: string; name: string }[];
+  const newGuests = guests.results as { id: number; slug: string; name: string }[];
 
   return (
     <>
@@ -55,7 +55,7 @@ export default async function AdminHome() {
           <p className="m-0 mb-2 text-muted">Z posledních dílů. Doplň fotku a bio a profil zveřejni.</p>
           <p className="m-0 flex flex-wrap gap-3">
             {newGuests.map((g) => (
-              <Link key={g.slug} href={`/admin/hoste/${g.slug}`}>{g.name}</Link>
+              <Link key={g.slug} href={`/admin/hoste/${g.id}`}>{g.name}</Link>
             ))}
           </p>
         </section>

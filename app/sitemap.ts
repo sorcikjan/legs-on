@@ -20,8 +20,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: url("/predplatne"), changeFrequency: "monthly", priority: 0.8 },
     { url: url("/pro-partnery"), changeFrequency: "yearly", priority: 0.5 },
     ...TOPICS.map((t) => ({ url: url(`/clanky/tema/${topicSlug(t)}`), changeFrequency: "weekly" as const, priority: 0.6 })),
-    ...episodes.map((e) => ({ url: url(`/dily/${e.slug}`), lastModified: e.date, priority: 0.8 })),
-    ...articles.map((a) => ({ url: url(`/clanky/${a.slug}`), lastModified: a.date, priority: 0.8 })),
+    ...episodes.filter((e) => !e.noindex).map((e) => ({ url: url(`/dily/${e.slug}`), lastModified: e.date, priority: 0.8 })),
+    ...articles.filter((a) => !a.noindex).map((a) => ({ url: url(`/clanky/${a.slug}`), lastModified: a.date, priority: 0.8 })),
     ...guests.map((g) => ({ url: url(`/hoste/${g.slug}`), priority: 0.6 })),
   ];
 }
