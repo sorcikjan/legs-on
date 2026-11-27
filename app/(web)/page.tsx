@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { SiteImage } from "@/components/SiteImage";
 import Link from "next/link";
-import { ArticleGrid, FeaturedArticles, TopicPills, withSource } from "@/components/ArticleCard";
+import { FeaturedArticles, withSource } from "@/components/ArticleCard";
 import { GuestNames, SectionLabel } from "@/components/bits";
 import { EpisodeList } from "@/components/EpisodeRow";
 import { PersonPlaceholder, PlayIcon } from "@/components/icons";
 import { JsonLd } from "@/components/JsonLd";
 import { SubscribeLink } from "@/components/TrackedLink";
-import { getArticles, getGuests, TOPICS } from "@/lib/content";
+import { getArticles, getGuests } from "@/lib/content";
 import { getEpisodes, type Episode } from "@/lib/episodes";
 import { shortDate } from "@/lib/format";
 import { podcastSeriesLd } from "@/lib/jsonld";
@@ -117,9 +117,10 @@ export default async function HomePage() {
   const interview = episodes.find((e) => e.series === "Rozhovor" && e.slug !== latest.slug);
   const rest = episodes.filter((e) => e !== latest && e !== interview).slice(0, 6);
 
-  const all = withSource(articles, guests);
-  const featured = all.filter((a) => a.featured > 0).sort((a, b) => a.featured - b.featured);
-  const grid = all.filter((a) => !featured.includes(a)).slice(0, 8);
+  // Tři výrazné články: nejdřív vybrané v administraci (pořadí „Na homepage“), doplní je nejnovější.
+  const all = withSource(articles, guests, episodes);
+  const picked = all.filter((a) => a.featured > 0).sort((a, b) => a.featured - b.featured);
+  const [leadArticle, ...sideArticles] = [...picked, ...all.filter((a) => !picked.includes(a))].slice(0, 3);
 
   const listen = [
     { label: "Spotify", short: "Spotify", href: PLATFORMS.spotify },
@@ -234,9 +235,7 @@ export default async function HomePage() {
         <div className="wrap py-14 md:py-36">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4 md:mb-8">
             <div>
-              <h2 className="m-0 text-[34px] font-medium leading-[1.1] tracking-[-0.5px] md:text-5xl md:tracking-[-1px]">
-                Články
-              </h2>
+              <h2 className="display m-0 text-[44px] leading-none md:text-[72px]">Články</h2>
               <p className="m-0 mt-1.5 max-w-[520px] text-[15px] text-muted md:mt-2.5 md:text-[17px]">
                 Z každého dílu vzniká článek. Přečti si to podstatné, a když tě to chytne, pusť si celý díl.
               </p>
@@ -245,16 +244,10 @@ export default async function HomePage() {
               Všechny články →
             </Link>
           </div>
-          <div className="mb-8 hidden md:mb-12 md:block">
-            <TopicPills topics={TOPICS} />
-          </div>
-          {featured[0] && <FeaturedArticles main={featured[0]} side={featured[1]} />}
-          <div className="mt-10 md:mt-[72px]">
-            <ArticleGrid articles={grid} />
-          </div>
+          {leadArticle && <FeaturedArticles main={leadArticle} side={sideArticles} />}
           <div className="mt-10 text-center md:mt-16">
             <Link href="/clanky" className="pill px-7 py-3.5 text-[15px] font-medium">
-              Další články
+              Všechny články
             </Link>
           </div>
         </div>

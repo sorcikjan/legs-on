@@ -2,20 +2,21 @@ import { ArticleGrid, FeaturedArticles, TopicPills, withSource } from "@/compone
 import { CtaBand } from "@/components/CtaBand";
 import { NewsletterForm } from "@/components/Interactive";
 import { getArticles, getGuests, TOPICS, type Topic } from "@/lib/content";
+import { getEpisodes } from "@/lib/episodes";
 
 /** Výpis článků – /clanky i /clanky/tema/[tema]. */
 export async function ArticlesIndex({ topic }: { topic?: Topic }) {
-  const [articles, guests] = await Promise.all([getArticles(), getGuests()]);
-  const all = withSource(articles, guests).filter((a) => !topic || a.topic === topic);
-  // Velké karty jen pro články s fotkou
-  const candidates = topic ? all : all.filter((a) => a.featured > 0).sort((a, b) => a.featured - b.featured);
-  const top = candidates.filter((a) => a.image).slice(0, 2);
+  const [articles, guests, episodes] = await Promise.all([getArticles(), getGuests(), getEpisodes()]);
+  const all = withSource(articles, guests, episodes).filter((a) => !topic || a.topic === topic);
+  // Nahoře hlavní a dva vedlejší: vybrané v administraci, jinak nejnovější.
+  const picked = topic ? [] : all.filter((a) => a.featured > 0).sort((a, b) => a.featured - b.featured);
+  const top = [...picked, ...all.filter((a) => !picked.includes(a))].slice(0, 3);
   const grid = all.filter((a) => !top.includes(a));
 
   return (
     <div className="bg-bg-light">
       <div className="wrap pb-20 pt-10 md:pb-[120px] md:pt-20">
-        <h1 className="m-0 text-[44px] font-medium leading-[1.05] tracking-[-1px] md:text-[64px] md:tracking-[-1.5px]">
+        <h1 className="display m-0 text-[56px] leading-none md:text-[96px]">
           {topic ? `Články: ${topic}` : "Články"}
         </h1>
         <p className="m-0 mt-3.5 max-w-[620px] text-muted md:text-[19px]">
@@ -25,11 +26,11 @@ export async function ArticlesIndex({ topic }: { topic?: Topic }) {
           <TopicPills topics={TOPICS} current={topic} />
         </div>
 
-        {top[0] && <FeaturedArticles main={top[0]} side={top[1]} heading="h2" />}
+        {top[0] && <FeaturedArticles main={top[0]} side={top.slice(1)} heading="h2" />}
 
         {grid.length > 0 && (
           <div className={top[0] ? "mt-14 md:mt-20" : ""}>
-            <ArticleGrid articles={grid} gap="gap-x-10 gap-y-10 md:gap-y-14" />
+            <ArticleGrid articles={grid} gap="gap-x-8 gap-y-12 md:gap-y-16" />
           </div>
         )}
         {all.length === 0 && <p className="m-0 text-muted">K tomuhle tématu zatím článek nemáme.</p>}

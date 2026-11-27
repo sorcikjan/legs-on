@@ -9,7 +9,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { PlayButton } from "@/components/player/PlayButton";
 import { SubscribeLink, TrackedLink } from "@/components/TrackedLink";
 import { getArticle, getArticles, getGuests, topicSlug, type Block } from "@/lib/content";
-import { findEpisodeRef, playable, type Episode } from "@/lib/episodes";
+import { findEpisodeRef, getEpisodes, playable, type Episode } from "@/lib/episodes";
 import { longDate } from "@/lib/format";
 import { articleLd } from "@/lib/jsonld";
 
@@ -104,19 +104,20 @@ function Body({ blocks, episode }: { blocks: Block[]; episode?: Episode }) {
 
 export default async function ArticlePage({ params }: PageProps<"/clanky/[slug]">) {
   const { slug } = await params;
-  const [article, articles, guests] = await Promise.all([getArticle(slug), getArticles(), getGuests()]);
+  const [article, articles, guests, episodes] = await Promise.all([getArticle(slug), getArticles(), getGuests(), getEpisodes()]);
   if (!article) return redirectOrNotFound(`/clanky/${slug}`);
 
   const episode = await findEpisodeRef(article.episode);
   const articleGuests = guests.filter((g) => article.guests.includes(g.slug));
   const guest = articleGuests[0];
-  const [withMeta] = withSource([article], guests);
+  const [withMeta] = withSource([article], guests, episodes);
   const related = withSource(
     articles
       .filter((a) => a.slug !== article.slug)
       .sort((a, b) => Number(b.topic === article.topic) - Number(a.topic === article.topic))
       .slice(0, 3),
     guests,
+    episodes,
   );
 
   return (

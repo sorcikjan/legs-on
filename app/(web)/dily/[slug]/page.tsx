@@ -70,6 +70,7 @@ export default async function EpisodePage({ params }: PageProps<"/dily/[slug]">)
   const related = withSource(
     articles.filter((a) => a.episode === episodeRef(episode)),
     guests,
+    episodes,
   );
   const more = episodes.filter((e) => e.slug !== episode.slug).slice(0, 3);
   const isInterview = episode.series === "Rozhovor";

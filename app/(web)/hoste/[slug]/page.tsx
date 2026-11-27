@@ -45,6 +45,7 @@ export default async function GuestPage({ params }: PageProps<"/hoste/[slug]">) 
   const related = withSource(
     articles.filter((a) => a.guests.includes(guest.slug)),
     guests,
+    episodes,
   );
   const others = guests.filter((g) => g.slug !== guest.slug).slice(0, 4);
   const [first, ...rest] = guest.name.split(" ");
